@@ -1,14 +1,14 @@
 /*
- * [y] hybris Platform
- *
- * Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
- */
+* [y] hybris Platform
+*
+* Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
+* All rights reserved.
+*
+* This software is the confidential and proprietary information of SAP
+* ("Confidential Information"). You shall not disclose such Confidential
+* Information and shall use it only in accordance with the terms of the
+* license agreement you entered into with SAP.
+*/
 package com.sap.sapbasket.storefront.controllers.pages;
 
 import static org.junit.Assert.assertEquals;
@@ -21,10 +21,10 @@ import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.Breadcrumb;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.ResourceBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyConstants;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.AbstractSearchPageController.ShowMode;
-import de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm;
+/*axle*/
+import com.sap.sapbasket.storefront.forms.CustomAddressForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateEmailForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdatePasswordForm;
-import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateProfileForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.AddressValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.EmailValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.PasswordValidator;
@@ -59,8 +59,6 @@ import de.hybris.platform.commerceservices.search.pagedata.PaginationData;
 import de.hybris.platform.commerceservices.search.pagedata.SearchPageData;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.servicelayer.i18n.I18NService;
-import com.sap.sapbasket.storefront.controllers.ControllerConstants;
-import com.sap.sapbasket.storefront.forms.ExtendedUpdateProfileForm;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,6 +79,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sap.sapbasket.storefront.controllers.ControllerConstants;
+import com.sap.sapbasket.storefront.forms.ExtendedUpdateProfileForm;
 
 
 @UnitTest
@@ -160,7 +161,7 @@ public class AccountPageControllerTest
 	@Mock
 	private AbstractPageModel abstractPageModel;
 	@Mock
-	private AddressForm addressForm;
+	private CustomAddressForm addressForm;
 	@Mock
 	private UpdateEmailForm emailForm;
 	@Mock
@@ -285,7 +286,7 @@ public class AccountPageControllerTest
 	@Test
 	public void shouldPrepareAddress()
 	{
-		final AddressForm addressForm = accountController.getPreparedAddressForm();
+		final CustomAddressForm addressForm = accountController.getPreparedAddressForm();
 		assertEquals(FIRST_NAME, addressForm.getFirstName());
 		assertEquals(LAST_NAME, addressForm.getLastName());
 		assertEquals(TITLE_CODE, addressForm.getTitleCode());

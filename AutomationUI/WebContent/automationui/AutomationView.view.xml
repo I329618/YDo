@@ -1,0 +1,107 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form" xmlns="sap.m" controllerName="automationui.AutomationView"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:uxap="sap.uxap">
+	<Page title="{}">
+		<content>
+
+			<f:SimpleForm id="SimpleFormChange354wideDual" editable="true"
+				layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="3"
+				labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+				emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1"
+				columnsM="1" singleContainerFullSize="false">
+				<f:content>
+					<core:Title text="Project Details "></core:Title>
+					<Label text="Project Name" />
+					<Input placeholder="Name of Project" id="projectName"
+						value="{formInputModel>/projectName}" />
+					<Label text="Table" />
+					<Input placeholder="Name of Table" id="itemsName"
+						value="{formInputModel>/itemsName}" />
+					<Label text="Extending From" />
+					<Input placeholder="Name of Extending Table" id="extendedItem"
+						value="{formInputModel>/extendedItem}" />
+					<Label text="Id for Object" />
+					<Input placeholder="Enter value between 10,000 to 20,000" id="deploymentTable"
+						value="{formInputModel>/deploymentTable}" /> 
+					<!-- <Label text="Extend existing object" />
+					<CheckBox id="generateCheck" select="handleCheckBoxSelect" />
+					<Label text="Create new database table" />
+					<CheckBox id="AutoCreate" select="handleCheckBoxSelect" />-->
+					<Label text="Add attributes to existing Table" />
+					<CheckBox id="addAttributeCB" select="handleCheckBoxSelect" />
+					<!-- <Label text="Extend abstract Item" />
+					<CheckBox id="abstractItemCB" select="handleCheckBoxSelect" />
+					<Label text="Jalo package for abstract object" />
+					<Input placeholder="Jalo Package name" id="jaloPackageTextbox" enabled="false"
+						value="{formInputModel>/jaloPackage}" /> -->
+					
+				</f:content>
+			</f:SimpleForm>
+
+			<Table id="propertyTable" items="{propertyArrModel>/properties}">
+				<columns>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Column Name" required="true" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Data Type" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Persistence Type" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Redeclare" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Modifiers" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="Resembling column of Table" required="true" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Label text="" />
+					</Column>
+				</columns>
+				<items>
+
+					<ColumnListItem>
+						<cells>
+							<Input value="{propertyArrModel>qualifier}" />
+							<ComboBox items="{dataTypeCombo>/index}" forceSelection="false"
+								selectionChange="handleDatatypeChange" selectedKey="{propertyArrModel>extensionName}">
+								<items>
+									<core:Item key="{dataTypeCombo>key}" text="{dataTypeCombo>value}" />
+								</items>
+							</ComboBox>
+							<Select items="{persistanceModel>/persistances}"
+								forceSelection="false" change="onProbabilityCB" selectedKey="{propertyArrModel>persistence}">
+								<items>
+									<core:Item key="{persistanceModel>types}" text="{persistanceModel>types}" />
+								</items>
+							</Select>
+							<CheckBox select="handleCheckBoxSelect" selected="{propertyArrModel>redeclare}" />
+							<MultiComboBox selectedKeys="{propertyArrModel>modifiers}"
+								selectionChange="handleSelectionFinish" items="{modifiersMultiCombo>/modifiers}">
+								<core:Item key="{modifiersMultiCombo>modName}" text="{modifiersMultiCombo>modName}" />
+							</MultiComboBox>
+							<Input value="{propertyArrModel>twinFeild}" />
+							<Button icon="sap-icon://delete" type="Transparent"
+								press="handleDeleteQualifier" />
+						</cells>
+					</ColumnListItem>
+
+				</items>
+			</Table>
+			<Button icon="sap-icon://add" type="Transparent" press="handleAddProperties"></Button>
+
+
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button text="Create" press="onPressSave" />
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</core:View>

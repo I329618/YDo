@@ -31,14 +31,14 @@ public class DefaultCustomCustomerAccountService extends DefaultCustomerAccountS
 	 */
 	@Override
 	public void updateProfile(final CustomerModel customerModel, final String titleCode, final String name, final String login,
-			final String email, final String date_of_birth, final String mobile_number, final String landline_number)
+			/* final String email, */ final String date_of_birth, final String mobile_number, final String landline_number)
 			throws DuplicateUidException
 	{
 		validateParameterNotNullStandardMessage("customerModel", customerModel);
 
 		customerModel.setUid(login);
 		customerModel.setName(name);
-		customerModel.setEmail(email);
+		/* customerModel.setEmail(email); */
 		customerModel.setDate_of_birth(date_of_birth);
 		customerModel.setMobile_number(mobile_number);
 		customerModel.setLandline_number(landline_number);

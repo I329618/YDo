@@ -1,3 +1,4 @@
+<!-- axle -->
 <%@ attribute name="supportedCountries" required="true" type="java.util.List"%>
 <%@ attribute name="regions" required="true" type="java.util.List"%>
 <%@ attribute name="country" required="false" type="java.lang.String"%>
@@ -22,7 +23,7 @@
 </c:if>
 
 <c:if test="${empty addressFormEnabled or addressFormEnabled}">
-	<form:form method="post" commandName="addressForm">
+	<form:form method="post" commandName="customAddressForm">
 		<form:hidden path="addressId" class="add_edit_delivery_address_id"
 			status="${not empty suggestedAddresses ? 'hasSuggestedAddresses' : ''}" />
 		<input type="hidden" name="bill_state" id="address.billstate" />

@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog id="dataTypeFragment" title="Select a Converter">
+		<List id="dataTypeList" mode="SingleSelectLeft" selectedKey="{propertyArrModel>converterName}" updateFinished = "handleDataTypeListFinished"/>
+			<endButton>
+				<Button text="Save" press="handleDataTypeFragmentSave"></Button>
+			</endButton>
+	</Dialog>
+</core:FragmentDefinition>

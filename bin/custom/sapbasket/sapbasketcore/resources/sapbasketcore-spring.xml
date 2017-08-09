@@ -1,68 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- [y] hybris Platform
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- [y] hybris Platform 
+	Copyright (c) 2000-2016 SAP SE or an SAP affiliate company. All rights reserved. 
+	This software is the confidential and proprietary information of SAP ("Confidential 
+	Information"). You shall not disclose such Confidential Information and shall 
+	use it only in accordance with the terms of the license agreement you entered 
+	into with SAP. --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd        http://www.springframework.org/schema/context         http://www.springframework.org/schema/context/spring-context.xsd">
 
- Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
- All rights reserved.
-
- This software is the confidential and proprietary information of SAP
- ("Confidential Information"). You shall not disclose such Confidential
- Information and shall use it only in accordance with the terms of the
- license agreement you entered into with SAP.
--->
-
-
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans 
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
-
-     <context:annotation-config/> 
+	<context:annotation-config/>
 
 	<!-- Spring Integration -->
 	<import resource="classpath:/sapbasketcore/integration/hot-folder-store-electronics-spring.xml"/>
 	<import resource="classpath:/sapbasketcore/integration/hot-folder-store-apparel-spring.xml"/>
 	<import resource="classpath:/sapbasketcore/integration/hot-folder-common-spring.xml"/>
 	<import resource="classpath:/sapbasketcore/integration/hot-folder-store-sapbasket-spring.xml"/>
-	
+
 	<!-- SystemSetup for the SapbasketCore -->
-	<bean id="acceleratorCoreSystemSetup" class="com.sap.sapbasket.core.setup.CoreSystemSetup"
-	       parent="abstractCoreSystemSetup"/>
+	<bean class="com.sap.sapbasket.core.setup.CoreSystemSetup" id="acceleratorCoreSystemSetup" parent="abstractCoreSystemSetup"/>
 
 	<!-- Solr field value providers SAPBasket -->
-	
-	<bean id="volumeAwareProductPriceValueProvider" class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.VolumeAwareProductPriceValueProvider"  parent="abstractPropertyFieldValueProvider">
-        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
-        <property name="priceService" ref="priceService"/>
-        <property name="commonI18NService" ref="commonI18NService"/>
-        <property name="sessionService" ref="sessionService"/>
-        <property name="userService" ref="userService"/>
-        <property name="priceComparator" ref="volumePriceComparator"/>
-        <property name="catalogVersionService" ref="catalogVersionService"/>
-    </bean>
 
-    <bean id="volumePriceComparator" class="com.sap.sapbasket.core.comparators.VolumeAwarePriceInformationComparator" scope="singleton"/>
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.VolumeAwareProductPriceValueProvider" id="volumeAwareProductPriceValueProvider" parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="priceService" ref="priceService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+		<property name="sessionService" ref="sessionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="priceComparator" ref="volumePriceComparator"/>
+		<property name="catalogVersionService" ref="catalogVersionService"/>
+	</bean>
 
-    <bean id="productVolumePricesProvider" class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ProductVolumePricesProvider"  parent="abstractPropertyFieldValueProvider">
-        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
-        <property name="priceService" ref="priceService"/>
-    </bean>
-	
+	<bean class="com.sap.sapbasket.core.comparators.VolumeAwarePriceInformationComparator" id="volumePriceComparator" scope="singleton"/>
+
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ProductVolumePricesProvider" id="productVolumePricesProvider" parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="priceService" ref="priceService"/>
+	</bean>
+
 
 	<bean id="electronicsCategorySource" parent="abstractCategorySource">
 		<property name="rootCategory" value="1"/>
 		<!-- '1' is the root icecat category -->
-		
+
 	</bean>
 	<bean id="sapbasketCategorySource" parent="abstractCategorySource">
 		<property name="rootCategory" value="Food"/>
-		</bean>
-		<bean id="sapbasketBrandCategorySource" parent="abstractCategorySource">
+	</bean>
+	<bean id="sapbasketBrandCategorySource" parent="abstractCategorySource">
 		<property name="rootCategory" value="Brands"/>
-		</bean>
+	</bean>
 	<bean id="electronicsBrandCategorySource" parent="abstractCategorySource">
 		<property name="rootCategory" value="brands"/>
 		<!-- 'brands' is the root of the brands hierarchy -->
@@ -80,15 +64,11 @@
 		<property name="rootCategory" value="collections"/> <!-- 'collections' is the root of the collections hierarchy -->
 	</bean>
 
-	<bean id="abstractCategoryCodeValueProvider" abstract="true"
-	      class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider"
-	      parent="abstractPropertyFieldValueProvider" >
+	<bean abstract="true" class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider" id="abstractCategoryCodeValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 		<property name="commonI18NService" ref="commonI18NService"/>
 	</bean>
-	<bean id="abstractCategoryNameValueProvider" abstract="true"
-	      class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider"
-	      parent="abstractPropertyFieldValueProvider" >
+	<bean abstract="true" class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider" id="abstractCategoryNameValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 		<property name="commonI18NService" ref="commonI18NService"/>
 	</bean>
@@ -126,229 +106,184 @@
 	</bean>
 	<bean id="sapbasketBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
 		<property name="categorySource" ref="sapbasketBrandCategorySource"/>
-		
+
 	</bean>
 	<bean id="sapbasketBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
 		<property name="categorySource" ref="sapbasketBrandCategorySource"/>
 	</bean>
 
-	<bean id="image515ValueProvider" parent="abstractImageValueProvider" >
+	<bean id="image515ValueProvider" parent="abstractImageValueProvider">
 		<property name="mediaFormat" value="515Wx515H"/>
 	</bean>
-	<bean id="image300ValueProvider" parent="abstractImageValueProvider" >
+	<bean id="image300ValueProvider" parent="abstractImageValueProvider">
 		<property name="mediaFormat" value="300Wx300H"/>
 	</bean>
-	<bean id="image96ValueProvider" parent="abstractImageValueProvider" >
+	<bean id="image96ValueProvider" parent="abstractImageValueProvider">
 		<property name="mediaFormat" value="96Wx96H"/>
 	</bean>
-	<bean id="image65ValueProvider" parent="abstractImageValueProvider" >
+	<bean id="image65ValueProvider" parent="abstractImageValueProvider">
 		<property name="mediaFormat" value="65Wx65H"/>
 	</bean>
-	<bean id="image30ValueProvider" parent="abstractImageValueProvider" >
+	<bean id="image30ValueProvider" parent="abstractImageValueProvider">
 		<property name="mediaFormat" value="30Wx30H"/>
 	</bean>
 
-	<bean id="productUrlValueProvider"
-	      class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.ProductUrlValueProvider"
-	      parent="abstractPropertyFieldValueProvider" >
+	<bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.ProductUrlValueProvider" id="productUrlValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="urlResolver" ref="productModelUrlResolver"/>
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 		<property name="i18nService" ref="i18nService"/>
 		<property name="commonI18NService" ref="commonI18NService"/>
 	</bean>
 
-	<bean id="promotionCodeValueProvider"
-	      class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PromotionCodeValueProvider"
-	      parent="abstractPropertyFieldValueProvider" >
+	<bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PromotionCodeValueProvider" id="promotionCodeValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="promotionsService" ref="promotionsService"/>
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 	</bean>
 
-	<bean id="promotionImageValueProvider"
-	      class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PrimaryPromotionImageValueProvider"
-	      parent="abstractPropertyFieldValueProvider" >
+	<bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PrimaryPromotionImageValueProvider" id="promotionImageValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="promotionsService" ref="promotionsService"/>
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 	</bean>
 
-	<bean id="colorFacetValueProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ColorFacetValueProvider"
-	       parent="abstractPropertyFieldValueProvider">
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ColorFacetValueProvider" id="colorFacetValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 	</bean>
 
-	<bean id="colorFacetDisplayNameProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ColorFacetDisplayNameProvider"
-	      >
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.ColorFacetDisplayNameProvider" id="colorFacetDisplayNameProvider">
 		<property name="enumerationService" ref="enumerationService"/>
 		<property name="i18nService" ref="i18nService"/>
 		<property name="commonI18NService" ref="commonI18NService"/>
 	</bean>
-	
-	<bean id="apparelPointOfServiceFacetDisplayNameProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
-	      >
-		<property name="pointOfServiceService" ref="pointOfServiceService"/>
-	</bean>
-	
-	<bean id="electronicsPointOfServiceFacetDisplayNameProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
-	      >
+
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider" id="apparelPointOfServiceFacetDisplayNameProvider">
 		<property name="pointOfServiceService" ref="pointOfServiceService"/>
 	</bean>
 
-	<bean id="genderValueProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.GenderValueProvider"
-	       parent="abstractPropertyFieldValueProvider">
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider" id="electronicsPointOfServiceFacetDisplayNameProvider">
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.GenderValueProvider" id="genderValueProvider" parent="abstractPropertyFieldValueProvider">
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 	</bean>
 
-	<bean id="genderFacetDisplayNameProvider"
-	      class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.GenderFacetDisplayNameProvider"
-	      >
+	<bean class="com.sap.sapbasket.core.search.solrfacetsearch.provider.impl.GenderFacetDisplayNameProvider" id="genderFacetDisplayNameProvider">
 		<property name="enumerationService" ref="enumerationService"/>
 		<property name="i18nService" ref="i18nService"/>
 		<property name="commonI18NService" ref="commonI18NService"/>
 	</bean>
-<bean id="sapbasketCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
-<property name="categorySource" ref="sapbasketCategorySource"/>
-</bean>
-<bean id="sapbasketCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+	<bean id="sapbasketCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+		<property name="categorySource" ref="sapbasketCategorySource"/>
+	</bean>
+	<bean id="sapbasketCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
 		<property name="categorySource" ref="sapbasketCategorySource"/>
 	</bean>
 
 
 
-	<!--
-		Event listeners are singletons, therefore the dependency for a bean in tenant-scope
-		must be configured with a lookup method.
-	-->
-	<bean id="orderCancelledEventListener"
-	      class="com.sap.sapbasket.core.event.OrderCancelledEventListener" parent="abstractAcceleratorSiteEventListener">
+	<!-- Event listeners are singletons, therefore the dependency for a bean 
+		in tenant-scope must be configured with a lookup method. -->
+	<bean class="com.sap.sapbasket.core.event.OrderCancelledEventListener" id="orderCancelledEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="orderRefundEventListener"
-	      class="com.sap.sapbasket.core.event.OrderRefundEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.OrderRefundEventListener" id="orderRefundEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="customerRegistrationEventListener"
-	      class="com.sap.sapbasket.core.event.RegistrationEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.RegistrationEventListener" id="customerRegistrationEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="forgottenPasswordEventListener"
-	      class="com.sap.sapbasket.core.event.ForgottenPasswordEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.ForgottenPasswordEventListener" id="forgottenPasswordEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="submitOrderEventListener" class="com.sap.sapbasket.core.event.SubmitOrderEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SubmitOrderEventListener" id="submitOrderEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="businessProcessService" ref="businessProcessService"/>
 		<property name="modelService" ref="modelService"/>
 		<property name="baseStoreService" ref="baseStoreService"/>
 	</bean>
-	<bean id="orderConfirmationEventListener"
-	      class="com.sap.sapbasket.core.event.OrderConfirmationEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.OrderConfirmationEventListener" id="orderConfirmationEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="sendDeliveryMessageEventListener"
-	      class="com.sap.sapbasket.core.event.SendDeliveryMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SendDeliveryMessageEventListener" id="sendDeliveryMessageEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="sendReadyForPickupMessageEventListener"
-	      class="com.sap.sapbasket.core.event.SendReadyForPickupMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SendReadyForPickupMessageEventListener" id="sendReadyForPickupMessageEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="sendOrderPartiallyCanceledMessageEventListener"
-	      class="com.sap.sapbasket.core.event.SendOrderPartiallyCanceledMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SendOrderPartiallyCanceledMessageEventListener" id="sendOrderPartiallyCanceledMessageEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="sendOrderPartiallyRefundedMessageEventListener"
-	      class="com.sap.sapbasket.core.event.SendOrderPartiallyRefundedMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SendOrderPartiallyRefundedMessageEventListener" id="sendOrderPartiallyRefundedMessageEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="sendNotPickedUpConsignmentCanceledMessageEventListener"
-	      class="com.sap.sapbasket.core.event.SendNotPickedUpConsignmentCanceledMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.SendNotPickedUpConsignmentCanceledMessageEventListener" id="sendNotPickedUpConsignmentCanceledMessageEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="orderCompletedEventListener" class="com.sap.sapbasket.core.event.OrderCompletedEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.OrderCompletedEventListener" id="orderCompletedEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
-	<bean id="customerUpdateProfileEventListener"
-	      class="com.sap.sapbasket.core.event.UpdateProfileEventListener" parent="abstractAcceleratorSiteEventListener">
+	<bean class="com.sap.sapbasket.core.event.UpdateProfileEventListener" id="customerUpdateProfileEventListener" parent="abstractAcceleratorSiteEventListener">
 		<property name="modelService" ref="modelService"/>
 		<property name="businessProcessService" ref="businessProcessService"/>
 	</bean>
 
 	<!-- Process resources definition -->
 
-	<bean id="customerRegistrationEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="customerRegistrationEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/customerRegistrationEmailProcess.xml"/>
 	</bean>
-	<bean id="customerUpdateProfileEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="customerUpdateProfileEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/customerUpdateProfileEmailProcess.xml"/>
 	</bean>
-	<bean id="forgottenPasswordEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="forgottenPasswordEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/forgottenPasswordEmailProcess.xml"/>
 	</bean>
-	<bean id="orderConfirmationEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="orderConfirmationEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/orderConfirmationEmailProcess.xml"/>
 	</bean>
-	<bean id="sendDeliveryEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendDeliveryEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendDeliveryEmailProcess.xml"/>
 	</bean>
-	<bean id="sendReadyForPickupEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendReadyForPickupEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendReadyForPickupEmailProcess.xml"/>
 	</bean>
-	<bean id="sendOrderCancelledEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendOrderCancelledEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendOrderCancelledEmailProcess.xml"/>
 	</bean>
-	<bean id="sendOrderRefundEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendOrderRefundEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendOrderRefundEmailProcess.xml"/>
 	</bean>
-	<bean id="sendOrderPartiallyCanceledEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendOrderPartiallyCanceledEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendOrderPartiallyCanceledEmailProcess.xml"/>
 	</bean>
-	<bean id="sendOrderPartiallyRefundedEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendOrderPartiallyRefundedEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendOrderPartiallyRefundedEmailProcess.xml"/>
 	</bean>
-	<bean id="sendNotPickedUpConsignmentCanceledEmailProcessDefinitionResource"
-	      class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+	<bean class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" id="sendNotPickedUpConsignmentCanceledEmailProcessDefinitionResource">
 		<property name="resource" value="classpath:/sapbasketcore/processes/sendNotPickedUpConsignmentCanceledEmailProcess.xml"/>
 	</bean>
-	
+
 	<!-- Actions -->
-	<bean id="abstractAction" class="de.hybris.platform.processengine.action.AbstractAction"
-	      abstract="true">
+	<bean abstract="true" class="de.hybris.platform.processengine.action.AbstractAction" id="abstractAction">
 		<property name="modelService" ref="modelService"/>
 		<property name="processParameterHelper" ref="processParameterHelper"/>
 	</bean>
 
-	<bean id="sendEmail" class="de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction"
-	       parent="abstractAction">
+	<bean class="de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction" id="sendEmail" parent="abstractAction">
 		<property name="emailService" ref="emailService"/>
 	</bean>
 
-	<bean id="abstractGenerateEmailAction" class="de.hybris.platform.acceleratorservices.process.email.actions.GenerateEmailAction"
-	      parent="abstractAction" abstract="true">
+	<bean abstract="true" class="de.hybris.platform.acceleratorservices.process.email.actions.GenerateEmailAction" id="abstractGenerateEmailAction" parent="abstractAction">
 		<property name="modelService" ref="modelService"/>
 		<property name="cmsEmailPageService" ref="cmsEmailPageService"/>
 		<property name="contextResolutionStrategy" ref="processContextResolutionStrategy"/>
@@ -366,7 +301,7 @@
 	<bean id="generateOrderConfirmationEmail" parent="abstractGenerateEmailAction">
 		<property name="frontendTemplateName" value="OrderConfirmationEmailTemplate"/>
 	</bean>
-	
+
 	<bean id="generateDeliverySentEmail" parent="abstractGenerateEmailAction">
 		<property name="frontendTemplateName" value="DeliverySentEmailTemplate"/>
 	</bean>
@@ -374,11 +309,11 @@
 	<bean id="generateReadyForPickupEmail" parent="abstractGenerateEmailAction">
 		<property name="frontendTemplateName" value="ReadyForPickupEmailTemplate"/>
 	</bean>
-	
+
 	<bean id="generateOrderCancelledEmail" parent="abstractGenerateEmailAction">
 		<property name="frontendTemplateName" value="OrderCancelledEmailTemplate"/>
 	</bean>
-	
+
 	<bean id="generateOrderRefundEmail" parent="abstractGenerateEmailAction">
 		<property name="frontendTemplateName" value="OrderRefundEmailTemplate"/>
 	</bean>
@@ -396,26 +331,21 @@
 		<property name="frontendTemplateName" value="UpdateProfileEmailTemplate"/>
 	</bean>
 
-	<bean id="removeSentEmail"
-	      class="de.hybris.platform.acceleratorservices.process.email.actions.RemoveSentEmailAction"
-	      parent="abstractAction">
+	<bean class="de.hybris.platform.acceleratorservices.process.email.actions.RemoveSentEmailAction" id="removeSentEmail" parent="abstractAction">
 		<property name="modelService" ref="modelService"/>
 	</bean>
 
 	<!-- Simple Suggestion Service -->
 	<alias alias="simpleSuggestionService" name="defaultSimpleSuggestionService"/>
-	<bean id="defaultSimpleSuggestionService"
-	      class="com.sap.sapbasket.core.suggestion.impl.DefaultSimpleSuggestionService" >
+	<bean class="com.sap.sapbasket.core.suggestion.impl.DefaultSimpleSuggestionService" id="defaultSimpleSuggestionService">
 		<property name="simpleSuggestionDao" ref="simpleSuggestionDao"/>
 	</bean>
 	<alias alias="simpleSuggestionDao" name="defaultSimpleSuggestionDao"/>
-	<bean id="defaultSimpleSuggestionDao"
-	      class="com.sap.sapbasket.core.suggestion.dao.impl.DefaultSimpleSuggestionDao"
-	      parent="abstractItemDao" >
+	<bean class="com.sap.sapbasket.core.suggestion.dao.impl.DefaultSimpleSuggestionDao" id="defaultSimpleSuggestionDao" parent="abstractItemDao">
 		<property name="flexibleSearchService" ref="flexibleSearchService"/>
 	</bean>
 
-	<bean id="mccSiteUrlHelper" class="com.sap.sapbasket.core.util.MccSiteUrlHelper" >
+	<bean class="com.sap.sapbasket.core.util.MccSiteUrlHelper" id="mccSiteUrlHelper">
 		<property name="siteChannelValidationStrategy" ref="siteChannelValidationStrategy"/>
 		<property name="siteBaseUrlResolutionService" ref="siteBaseUrlResolutionService"/>
 		<property name="cmsSiteService" ref="cmsSiteService"/>
@@ -423,15 +353,14 @@
 
 
 	<!-- checkout flow configuration -->
-	
-	<bean id="pickUpInStoreCheckoutFlowStrategy" class="com.sap.sapbasket.core.checkout.flow.impl.PickUpInStoreCheckoutFlowStrategy" >
-		<property name="pickupStrategy" ref="pickupStrategy" />
-		<property name="defaultStrategy" ref="siteCheckoutFlowStrategy"/>
-		<property name="multiStepCheckoutFlowStrategy" ref="multiStepCheckoutFlowStrategy" />
-	</bean>	
 
-	<bean id="siteCheckoutFlowStrategy"
-	      class="com.sap.sapbasket.core.checkout.flow.impl.SiteCheckoutFlowStrategy" >
+	<bean class="com.sap.sapbasket.core.checkout.flow.impl.PickUpInStoreCheckoutFlowStrategy" id="pickUpInStoreCheckoutFlowStrategy">
+		<property name="pickupStrategy" ref="pickupStrategy"/>
+		<property name="defaultStrategy" ref="siteCheckoutFlowStrategy"/>
+		<property name="multiStepCheckoutFlowStrategy" ref="multiStepCheckoutFlowStrategy"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.core.checkout.flow.impl.SiteCheckoutFlowStrategy" id="siteCheckoutFlowStrategy">
 		<!-- This strategy looks up a strategy based on the current site UID -->
 		<property name="cmsSiteService" ref="cmsSiteService"/>
 		<property name="siteMappings">
@@ -446,8 +375,7 @@
 		<property name="defaultStrategy" ref="multiStepCheckoutFlowStrategy"/>
 	</bean>
 
-	<bean id="newCustomerCheckoutFlowStrategy"
-	      class="com.sap.sapbasket.core.checkout.flow.impl.NewCustomerCheckoutFlowStrategy" >
+	<bean class="com.sap.sapbasket.core.checkout.flow.impl.NewCustomerCheckoutFlowStrategy" id="newCustomerCheckoutFlowStrategy">
 		<!-- This strategy works out if the user has created any data -->
 		<property name="userService" ref="userService"/>
 		<property name="customerAccountService" ref="customerAccountService"/>
@@ -455,10 +383,9 @@
 		<property name="newCustomerStrategy" ref="multiStepCheckoutFlowStrategy"/>
 	</bean>
 
-	<!-- Product Reference Lookup Strategies-->
-	<alias name="apparelCrossSellingProductReferenceTargetStrategy" alias="crossSellingProductReferenceTargetStrategy"/>
-	<bean id="apparelCrossSellingProductReferenceTargetStrategy"
-	      parent="defaultCrossSellingProductReferenceTargetStrategy">
+	<!-- Product Reference Lookup Strategies -->
+	<alias alias="crossSellingProductReferenceTargetStrategy" name="apparelCrossSellingProductReferenceTargetStrategy"/>
+	<bean id="apparelCrossSellingProductReferenceTargetStrategy" parent="defaultCrossSellingProductReferenceTargetStrategy">
 		<property name="productReferenceTargetStrategies">
 			<list merge="true">
 				<ref bean="apparelSizeProductReferenceTargetStrategy"/>
@@ -466,15 +393,21 @@
 		</property>
 	</bean>
 
-	<bean id="apparelSizeProductReferenceTargetStrategy"
-	      class="com.sap.sapbasket.core.strategies.impl.ApparelSizeProductReferenceTargetStrategy">
+	<bean class="com.sap.sapbasket.core.strategies.impl.ApparelSizeProductReferenceTargetStrategy" id="apparelSizeProductReferenceTargetStrategy">
 		<property name="commerceCategoryService" ref="commerceCategoryService"/>
 		<property name="rootCategoryCode" value="categories"/>
 	</bean>
-	
-	<alias name="defaultCustomCustomerAccountService" alias="customCustomerAccountService"/>
-	<bean id="defaultCustomCustomerAccountService" class="com.sap.sapbasket.core.service.impl.DefaultCustomCustomerAccountService" parent="defaultCustomerAccountService">
-		
+
+	<alias alias="customCustomerAccountService" name="defaultCustomCustomerAccountService"/>
+	<bean class="com.sap.sapbasket.core.service.impl.DefaultCustomCustomerAccountService" id="defaultCustomCustomerAccountService" parent="defaultCustomerAccountService">
+
 	</bean>
+
+	<alias alias="ComposedTypesService" name="defaultComposedTypeService"/>
+	<bean class="com.sap.sapbasket.core.service.impl.DefaultComposedTypeService" id="defaultComposedTypeService"/>
+
+	<alias alias="ComposedTypesDao" name="defaultComposedTypesDao"/>
+	<bean class="com.sap.sapbasket.core.dao.impl.DefaultComposedTypesDao" id="defaultComposedTypesDao"/>
+
 	
-</beans>
+<alias alias="crmkitDao" name="defaultCRMKitDao"/><bean class="com.sap.sapbasket.core.dao.impl.DefaultCRMKitDao" id="defaultCRMKitDao" parent="abstractItemDao"/><alias alias="crmkitService" name="defaultCRMKitService"/><bean class="com.sap.sapbasket.core.service.impl.DefaultCRMKitService" id="defaultCRMKitService"/><alias alias="crmDao" name="defaultCRMDao"/><bean class="com.sap.sapbasket.core.dao.impl.DefaultCRMDao" id="defaultCRMDao" parent="abstractItemDao"/><alias alias="crmService" name="defaultCRMService"/><bean class="com.sap.sapbasket.core.service.impl.DefaultCRMService" id="defaultCRMService"/></beans>

@@ -1,30 +1,35 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
- [y] hybris Platform
-
- Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
- All rights reserved.
-
- This software is the confidential and proprietary information of SAP
- ("Confidential Information"). You shall not disclose such Confidential
- Information and shall use it only in accordance with the terms of the
- license agreement you entered into with SAP.
--->
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><!-- [y] hybris 
+	Platform Copyright (c) 2000-2016 SAP SE or an SAP affiliate company. All 
+	rights reserved. This software is the confidential and proprietary information 
+	of SAP ("Confidential Information"). You shall not disclose such Confidential 
+	Information and shall use it only in accordance with the terms of the license 
+	agreement you entered into with SAP. --><beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
 
 	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
-		<property name="genders" type="java.util.List&lt;com.sap.sapbasket.facades.product.data.GenderData>"/>
+		<property name="genders" type="java.util.List&lt;com.sap.sapbasket.facades.product.data.GenderData&gt;"/>
 	</bean>
 
 	<bean class="com.sap.sapbasket.facades.product.data.GenderData">
 		<property name="code" type="String"/>
 		<property name="name" type="String"/>
 	</bean>
-	
+
 	<bean class="de.hybris.platform.commercefacades.user.data.CustomerData">
-		<property name="email" type="String"/>
+		<!-- <property name="email" type="String" /> -->
 		<property name="date_of_birth" type="String"/>
 		<property name="mobile_number" type="String"/>
 		<property name="landline_number" type="String"/>
 	</bean>
-</beans>
+
+
+
+	<bean class="de.hybris.platform.commercefacades.automation.data.CRMKitData">
+		<property name="kitCode" type="String"/>
+		<property name="kitName" type="String"/>
+		<property name="kitOwner" type="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+		<property name="timestamp" type="java.util.Date"/>
+		<property name="active" type="Boolean"/>
+		<property name="b2bUnit" type="de.hybris.platform.b2bcommercefacades.company.data.B2BUnitData"/>
+	</bean>
+	
+<bean class="de.hybris.platform.commercefacades.user.data.AddressData"><property name="landmark" type="String"/></bean><bean class="de.hybris.platform.commercefacades.automation.data.CRMData"><property name="kitName" type="String"/><property name="kitOwner" type="de.hybris.platform.commercefacades.user.data.CustomerData"/></bean></beans>

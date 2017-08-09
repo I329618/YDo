@@ -1,14 +1,14 @@
 /*
- * [y] hybris Platform
- *
- * Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
- */
+* [y] hybris Platform
+*
+* Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
+* All rights reserved.
+*
+* This software is the confidential and proprietary information of SAP
+* ("Confidential Information"). You shall not disclose such Confidential
+* Information and shall use it only in accordance with the terms of the
+* license agreement you entered into with SAP.
+*/
 package com.sap.sapbasket.storefront.controllers.pages;
 
 import de.hybris.platform.acceleratorfacades.ordergridform.OrderGridFormFacade;
@@ -19,16 +19,17 @@ import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.ResourceBreadc
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyConstants;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.AbstractSearchPageController;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMessages;
-import de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm;
+/*axle*/
+import com.sap.sapbasket.storefront.forms.CustomAddressForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateEmailForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdatePasswordForm;
-//import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateProfileForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.AddressValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.EmailValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.PasswordValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.ProfileValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.verification.AddressVerificationResultHandler;
-import de.hybris.platform.acceleratorstorefrontcommons.util.AddressDataUtil;
+/*axle*/
+import com.sap.sapbasket.storefront.forms.CustomAddressDataUtil;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;
 import de.hybris.platform.commercefacades.address.AddressVerificationFacade;
 import de.hybris.platform.commercefacades.address.data.AddressVerificationResult;
@@ -104,7 +105,7 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final String PROFILE_CURRENT_PASSWORD_INVALID = "profile.currentPassword.invalid";
 	private static final String TEXT_ACCOUNT_PROFILE = "text.account.profile";
 	private static final String ADDRESS_DATA_ATTR = "addressData";
-	private static final String ADDRESS_FORM_ATTR = "addressForm";
+	private static final String ADDRESS_FORM_ATTR = "customAddressForm";
 	private static final String COUNTRY_ATTR = "country";
 	private static final String REGIONS_ATTR = "regions";
 	private static final String MY_ACCOUNT_ADDRESS_BOOK_URL = "/my-account/address-book";
@@ -138,6 +139,7 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final String ORDER_DETAIL_CMS_PAGE = "order";
 
 	private static final Logger LOG = Logger.getLogger(AccountPageController.class);
+
 
 	@Resource(name = "orderFacade")
 	private OrderFacade orderFacade;
@@ -181,8 +183,10 @@ public class AccountPageController extends AbstractSearchPageController
 	@Resource(name = "orderGridFormFacade")
 	private OrderGridFormFacade orderGridFormFacade;
 
-	@Resource(name = "addressDataUtil")
-	private AddressDataUtil addressDataUtil;
+/*axle*/
+@Resource(name = "customAddressDataUtil")
+/*axle*/
+private CustomAddressDataUtil addressDataUtil;
 
 	protected PasswordValidator getPasswordValidator()
 	{
@@ -249,8 +253,7 @@ public class AccountPageController extends AbstractSearchPageController
 	{
 		model.addAttribute("supportedCountries", getCountries());
 		populateModelRegionAndCountry(model, countryIsoCode);
-
-		final AddressForm addressForm = new AddressForm();
+		final CustomAddressForm addressForm = new CustomAddressForm();
 		model.addAttribute(ADDRESS_FORM_ATTR, addressForm);
 		for (final AddressData addressData : userFacade.getAddressBook())
 		{
@@ -294,6 +297,7 @@ public class AccountPageController extends AbstractSearchPageController
 			@RequestParam(value = "sort", required = false) final String sortCode, final Model model) throws CMSItemNotFoundException
 	{
 		// Handle paged search results
+
 		final PageableData pageableData = createPageableData(page, 5, sortCode, showMode);
 		final SearchPageData<OrderHistoryData> searchPageData = orderFacade.getPagedOrderHistoryForStatuses(pageableData);
 		populateModel(model, searchPageData, showMode);
@@ -483,7 +487,7 @@ public class AccountPageController extends AbstractSearchPageController
 		extendedUpdateProfileForm.setFirstName(customerData.getFirstName());
 		extendedUpdateProfileForm.setLastName(customerData.getLastName());
 
-		extendedUpdateProfileForm.setEmail(customerData.getEmail());
+		/* extendedUpdateProfileForm.setEmail(customerData.getEmail()); */
 		extendedUpdateProfileForm.setDate_of_birth(customerData.getDate_of_birth());
 		extendedUpdateProfileForm.setMobile_number(customerData.getMobile_number());
 		extendedUpdateProfileForm.setLandline_number(customerData.getLandline_number());
@@ -512,7 +516,7 @@ public class AccountPageController extends AbstractSearchPageController
 		customerData.setFirstName(extendedupdateProfileForm.getFirstName());
 		customerData.setLastName(extendedupdateProfileForm.getLastName());
 
-		customerData.setEmail(extendedupdateProfileForm.getEmail());
+		/* customerData.setEmail(extendedupdateProfileForm.getEmail()); */
 		customerData.setDate_of_birth(extendedupdateProfileForm.getDate_of_birth());
 		customerData.setMobile_number(extendedupdateProfileForm.getMobile_number());
 		customerData.setLandline_number(extendedupdateProfileForm.getLandline_number());
@@ -629,7 +633,7 @@ public class AccountPageController extends AbstractSearchPageController
 	{
 		model.addAttribute(COUNTRY_DATA_ATTR, checkoutFacade.getDeliveryCountries());
 		model.addAttribute(TITLE_DATA_ATTR, userFacade.getTitles());
-		final AddressForm addressForm = getPreparedAddressForm();
+		final CustomAddressForm addressForm = getPreparedAddressForm();
 		model.addAttribute(ADDRESS_FORM_ATTR, addressForm);
 		model.addAttribute(ADDRESS_BOOK_EMPTY_ATTR, Boolean.valueOf(userFacade.isAddressBookEmpty()));
 		model.addAttribute(IS_DEFAULT_ADDRESS_ATTR, Boolean.FALSE);
@@ -647,10 +651,10 @@ public class AccountPageController extends AbstractSearchPageController
 		return getViewForPage(model);
 	}
 
-	protected AddressForm getPreparedAddressForm()
+	protected CustomAddressForm getPreparedAddressForm()
 	{
 		final CustomerData currentCustomerData = customerFacade.getCurrentCustomer();
-		final AddressForm addressForm = new AddressForm();
+		final CustomAddressForm addressForm = new CustomAddressForm();
 		addressForm.setFirstName(currentCustomerData.getFirstName());
 		addressForm.setLastName(currentCustomerData.getLastName());
 		addressForm.setTitleCode(currentCustomerData.getTitleCode());
@@ -659,7 +663,7 @@ public class AccountPageController extends AbstractSearchPageController
 
 	@RequestMapping(value = "/add-address", method = RequestMethod.POST)
 	@RequireHardLogIn
-	public String addAddress(final AddressForm addressForm, final BindingResult bindingResult, final Model model,
+	public String addAddress(final CustomAddressForm addressForm, final BindingResult bindingResult, final Model model,
 			final RedirectAttributes redirectModel) throws CMSItemNotFoundException
 	{
 		getAddressValidator().validate(addressForm, bindingResult);
@@ -671,6 +675,7 @@ public class AccountPageController extends AbstractSearchPageController
 			setUpAddressFormAfterError(addressForm, model);
 			return getViewForPage(model);
 		}
+
 
 		final AddressData newAddress = addressDataUtil.convertToVisibleAddressData(addressForm);
 
@@ -709,7 +714,7 @@ public class AccountPageController extends AbstractSearchPageController
 		return REDIRECT_TO_EDIT_ADDRESS_PAGE + newAddress.getId();
 	}
 
-	protected void setUpAddressFormAfterError(final AddressForm addressForm, final Model model)
+	protected void setUpAddressFormAfterError(final CustomAddressForm addressForm, final Model model)
 	{
 		model.addAttribute(COUNTRY_DATA_ATTR, checkoutFacade.getDeliveryCountries());
 		model.addAttribute(TITLE_DATA_ATTR, userFacade.getTitles());
@@ -726,7 +731,7 @@ public class AccountPageController extends AbstractSearchPageController
 	public String editAddress(@PathVariable("addressCode") final String addressCode, final Model model)
 			throws CMSItemNotFoundException
 	{
-		final AddressForm addressForm = new AddressForm();
+		final CustomAddressForm addressForm = new CustomAddressForm();
 		model.addAttribute(COUNTRY_DATA_ATTR, checkoutFacade.getDeliveryCountries());
 		model.addAttribute(TITLE_DATA_ATTR, userFacade.getTitles());
 		model.addAttribute(ADDRESS_FORM_ATTR, addressForm);
@@ -787,7 +792,7 @@ public class AccountPageController extends AbstractSearchPageController
 
 	@RequestMapping(value = "/edit-address/" + ADDRESS_CODE_PATH_VARIABLE_PATTERN, method = RequestMethod.POST)
 	@RequireHardLogIn
-	public String editAddress(final AddressForm addressForm, final BindingResult bindingResult, final Model model,
+	public String editAddress(final CustomAddressForm addressForm, final BindingResult bindingResult, final Model model,
 			final RedirectAttributes redirectModel) throws CMSItemNotFoundException
 	{
 		getAddressValidator().validate(addressForm, bindingResult);
@@ -835,7 +840,7 @@ public class AccountPageController extends AbstractSearchPageController
 	}
 
 	@RequestMapping(value = "/select-suggested-address", method = RequestMethod.POST)
-	public String doSelectSuggestedAddress(final AddressForm addressForm, final RedirectAttributes redirectModel)
+	public String doSelectSuggestedAddress(final CustomAddressForm addressForm, final RedirectAttributes redirectModel)
 	{
 		final Set<String> resolveCountryRegions = org.springframework.util.StringUtils
 				.commaDelimitedListToSet(Config.getParameter("resolve.country.regions"));

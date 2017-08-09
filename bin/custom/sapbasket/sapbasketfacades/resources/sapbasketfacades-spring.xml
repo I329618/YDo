@@ -1,29 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- [y] hybris Platform
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- [y] hybris Platform 
+	Copyright (c) 2000-2016 SAP SE or an SAP affiliate company. All rights reserved. 
+	This software is the confidential and proprietary information of SAP ("Confidential 
+	Information"). You shall not disclose such Confidential Information and shall 
+	use it only in accordance with the terms of the license agreement you entered 
+	into with SAP. --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd   http://www.springframework.org/schema/context         http://www.springframework.org/schema/context/spring-context.xsd">
 
- Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
- All rights reserved.
-
- This software is the confidential and proprietary information of SAP
- ("Confidential Information"). You shall not disclose such Confidential
- Information and shall use it only in accordance with the terms of the
- license agreement you entered into with SAP.
--->
-
-
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
-		
-	<context:annotation-config/> 
+	<context:annotation-config/>
 
 	<alias alias="simpleSuggestionFacade" name="defaultSimpleSuggestionFacade"/>
-	<bean id="defaultSimpleSuggestionFacade" class="com.sap.sapbasket.facades.suggestion.impl.DefaultSimpleSuggestionFacade" >
+	<bean class="com.sap.sapbasket.facades.suggestion.impl.DefaultSimpleSuggestionFacade" id="defaultSimpleSuggestionFacade">
 		<property name="simpleSuggestionService" ref="simpleSuggestionService"/>
 		<property name="userService" ref="userService"/>
 		<property name="categoryService" ref="categoryService"/>
@@ -31,7 +16,7 @@
 		<property name="productConverter" ref="carouselProductConverter"/>
 		<property name="cartService" ref="cartService"/>
 	</bean>
-	
+
 	<bean id="carouselProductConverter" parent="defaultProductConverter">
 		<property name="populators">
 			<list merge="true">
@@ -40,9 +25,9 @@
 		</property>
 	</bean>
 
-	<alias name="acceleratorVariantOptionDataConverter" alias="variantOptionDataConverter"/> 
+	<alias alias="variantOptionDataConverter" name="acceleratorVariantOptionDataConverter"/>
 	<bean id="acceleratorVariantOptionDataConverter" parent="abstractPopulatingConverter">
-		<lookup-method name="createTarget" bean="variantOptionData"/>
+		<lookup-method bean="variantOptionData" name="createTarget"/>
 		<property name="populators">
 			<list>
 				<ref bean="acceleratorVariantOptionDataPopulator"/>
@@ -50,9 +35,8 @@
 		</property>
 	</bean>
 
-	<alias name="defaultAcceleratorVariantOptionDataPopulator" alias="acceleratorVariantOptionDataPopulator"/>
-	<bean id="defaultAcceleratorVariantOptionDataPopulator"  class="com.sap.sapbasket.facades.populators.AcceleratorVariantOptionDataPopulator"
-	      parent="variantOptionDataPopulator" >
+	<alias alias="acceleratorVariantOptionDataPopulator" name="defaultAcceleratorVariantOptionDataPopulator"/>
+	<bean class="com.sap.sapbasket.facades.populators.AcceleratorVariantOptionDataPopulator" id="defaultAcceleratorVariantOptionDataPopulator" parent="variantOptionDataPopulator">
 		<property name="mediaService" ref="mediaService"/>
 		<property name="mediaContainerService" ref="mediaContainerService"/>
 		<property name="typeService" ref="typeService"/>
@@ -65,22 +49,22 @@
 	</bean>
 
 
-	<alias name="acceleratorGenderConverter" alias="genderConverter"/> 
+	<alias alias="genderConverter" name="acceleratorGenderConverter"/>
 	<bean id="acceleratorGenderConverter" parent="abstractPopulatingConverter">
 		<property name="targetClass" value="com.sap.sapbasket.facades.product.data.GenderData"/>
-			<property name="populators">
-				<list>
-					<ref bean="genderDataPopulator"/>
-				</list>
-			</property>
+		<property name="populators">
+			<list>
+				<ref bean="genderDataPopulator"/>
+			</list>
+		</property>
 	</bean>
 
-	<alias name="defaultGenderDataPopulator" alias="genderDataPopulator"/>
-	<bean id="defaultGenderDataPopulator" class="com.sap.sapbasket.facades.populators.GenderDataPopulator" >
+	<alias alias="genderDataPopulator" name="defaultGenderDataPopulator"/>
+	<bean class="com.sap.sapbasket.facades.populators.GenderDataPopulator" id="defaultGenderDataPopulator">
 		<property name="typeService" ref="typeService"/>
 	</bean>
 
-	<bean id="apparelProductPopulator" class="com.sap.sapbasket.facades.populators.ApparelProductPopulator" >
+	<bean class="com.sap.sapbasket.facades.populators.ApparelProductPopulator" id="apparelProductPopulator">
 		<property name="genderConverter" ref="genderConverter"/>
 	</bean>
 
@@ -91,7 +75,7 @@
 	</bean>
 
 	<!-- accelerator Image Format Mappings -->
-	<alias name="acceleratorImageFormatMapping" alias="imageFormatMapping"/>
+	<alias alias="imageFormatMapping" name="acceleratorImageFormatMapping"/>
 	<bean id="acceleratorImageFormatMapping" parent="defaultImageFormatMapping">
 		<property name="mapping">
 			<map>
@@ -107,7 +91,7 @@
 		</property>
 	</bean>
 
-	<alias name="acceleratorProductPrimaryImagePopulator" alias="productPrimaryImagePopulator" />
+	<alias alias="productPrimaryImagePopulator" name="acceleratorProductPrimaryImagePopulator"/>
 	<bean id="acceleratorProductPrimaryImagePopulator" parent="defaultProductPrimaryImagePopulator">
 		<property name="imageFormats">
 			<list>
@@ -119,7 +103,7 @@
 		</property>
 	</bean>
 
-	<alias name="acceleratorProductGalleryImagesPopulator" alias="productGalleryImagesPopulator" />
+	<alias alias="productGalleryImagesPopulator" name="acceleratorProductGalleryImagesPopulator"/>
 	<bean id="acceleratorProductGalleryImagesPopulator" parent="defaultProductGalleryImagesPopulator">
 		<property name="imageFormats">
 			<list>
@@ -131,68 +115,92 @@
 		</property>
 	</bean>
 
-	<bean id="customerEmailContext" class="com.sap.sapbasket.facades.process.email.context.CustomerEmailContext" parent="abstractEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.CustomerEmailContext" id="customerEmailContext" parent="abstractEmailContext" scope="prototype">
 		<property name="customerConverter" ref="customerConverter"/>
 	</bean>
 
-	<bean id="forgottenPasswordEmailContext" class="com.sap.sapbasket.facades.process.email.context.ForgottenPasswordEmailContext" parent="customerEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.ForgottenPasswordEmailContext" id="forgottenPasswordEmailContext" parent="customerEmailContext" scope="prototype">
 		<property name="customerConverter" ref="customerConverter"/>
 	</bean>
-	
-	<bean id="orderNotificationEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderNotificationEmailContext" parent="abstractEmailContext" scope="prototype" >
-		<property name="orderConverter" ref="orderConverter"/>
-	</bean>
-	
-	<bean id="deliverySentEmailContext" class="com.sap.sapbasket.facades.process.email.context.DeliverySentEmailContext" parent="abstractEmailContext" scope="prototype" >
-		<property name="consignmentConverter" ref="consignmentConverter"/>
-	</bean>
-	
-	<bean id="readyForPickupEmailContext" class="com.sap.sapbasket.facades.process.email.context.ReadyForPickupEmailContext" parent="abstractEmailContext" scope="prototype" >
-		<property name="consignmentConverter" ref="consignmentConverter"/>
-	</bean>
-	
-	<bean id="orderCancelledEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderCancelledEmailContext" parent="abstractEmailContext" scope="prototype" >
-		<property name="orderConverter" ref="orderConverter"/>
-	</bean>
-	
-	<bean id="orderRefundEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderRefundEmailContext" parent="abstractEmailContext" scope="prototype" >
-		<property name="orderConverter" ref="orderConverter"/>
-	</bean>
-	<bean id="consignmentCollectionReminderEmailContext" class="com.sap.sapbasket.facades.process.email.context.ConsignmentCollectionReminderEmailContext" parent="abstractEmailContext" scope="prototype">
-        <property name="consignmentConverter" ref="consignmentConverter"/>
-        <property name="formatFactory" ref="formatFactory"/>
-        <property name="customerServiceUncollectedConsignmentStrategy" ref="customerServiceUncollectedConsignmentStrategy" />
-        <property name="orderConverter" ref="orderConverter"/>
-    </bean>
 
-	<bean id="orderPartiallyModifiedEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyModifiedEmailContext" parent="abstractEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderNotificationEmailContext" id="orderNotificationEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.facades.process.email.context.DeliverySentEmailContext" id="deliverySentEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.facades.process.email.context.ReadyForPickupEmailContext" id="readyForPickupEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderCancelledEmailContext" id="orderCancelledEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderRefundEmailContext" id="orderRefundEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+	<bean class="com.sap.sapbasket.facades.process.email.context.ConsignmentCollectionReminderEmailContext" id="consignmentCollectionReminderEmailContext" parent="abstractEmailContext" scope="prototype">
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+		<property name="formatFactory" ref="formatFactory"/>
+		<property name="customerServiceUncollectedConsignmentStrategy" ref="customerServiceUncollectedConsignmentStrategy"/>
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyModifiedEmailContext" id="orderPartiallyModifiedEmailContext" parent="abstractEmailContext" scope="prototype">
 		<property name="orderConverter" ref="orderConverter"/>
 		<property name="orderEntryConverter" ref="orderEntryConverter"/>
-		<property name="priceDataFactory" ref="priceDataFactory"/>		
+		<property name="priceDataFactory" ref="priceDataFactory"/>
 	</bean>
 
-	<bean id="orderPartiallyCanceledEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyCanceledEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyCanceledEmailContext" id="orderPartiallyCanceledEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype">
 	</bean>
 
-	<bean id="orderPartiallyRefundedEmailContext" class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyRefundedEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.OrderPartiallyRefundedEmailContext" id="orderPartiallyRefundedEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype">
 	</bean>
 
-	<bean id="notPickedUpConsignmentCanceledEmailContext" class="com.sap.sapbasket.facades.process.email.context.NotPickedUpConsignmentCanceledEmailContext" parent="abstractEmailContext" scope="prototype" >
+	<bean class="com.sap.sapbasket.facades.process.email.context.NotPickedUpConsignmentCanceledEmailContext" id="notPickedUpConsignmentCanceledEmailContext" parent="abstractEmailContext" scope="prototype">
 		<property name="consignmentConverter" ref="consignmentConverter"/>
 		<property name="priceDataFactory" ref="priceDataFactory"/>
 	</bean>
 
-	<alias name="yacceleratorSearchPagePointOfServiceDistancePopulator" alias="searchPagePointOfServiceDistancePopulator" />
-	<bean id="yacceleratorSearchPagePointOfServiceDistancePopulator" class="com.sap.sapbasket.facades.storefinder.populators.SearchPagePointOfServiceDistancePopulator" >
+	<alias alias="searchPagePointOfServiceDistancePopulator" name="yacceleratorSearchPagePointOfServiceDistancePopulator"/>
+	<bean class="com.sap.sapbasket.facades.storefinder.populators.SearchPagePointOfServiceDistancePopulator" id="yacceleratorSearchPagePointOfServiceDistancePopulator">
 		<property name="pointOfServiceDistanceConverter" ref="pointOfServiceDistanceConverter"/>
 	</bean>
 
-	<bean id="genderData" class="com.sap.sapbasket.facades.product.data.GenderData" scope="prototype"/>
-	
-	<alias name="defaultCustomCustomerFacade" alias="custCustomerFacade"/>
-	<bean id="defaultCustomCustomerFacade" class="com.sap.sapbasket.sapbasketfacades.impl.DefaultCustomCustomerFacade" parent="defaultCustomerFacade">	
+	<bean class="com.sap.sapbasket.facades.product.data.GenderData" id="genderData" scope="prototype"/>
+
+	<alias alias="custCustomerFacade" name="defaultCustomCustomerFacade"/>
+	<bean class="com.sap.sapbasket.sapbasketfacades.impl.DefaultCustomCustomerFacade" id="defaultCustomCustomerFacade" parent="defaultCustomerFacade">
+	</bean>
+
+	<alias alias="customerPopulator" name="CustomCustomerPopulator"/>
+	<bean class="com.sap.sapbasket.facades.populators.CustomCustomerPopulator" id="CustomCustomerPopulator" parent="defaultCustomerPopulator"/>
+
+	<alias alias="TestAutomationFacade" name="defaultTestAutomationFacade"/>
+	<bean class="com.sap.sapbasket.facades.impl.DefaultAutomationFacade" id="defaultTestAutomationFacade"/>
+
+
+
+
+	<alias alias="crmkitFacade" name="defaultCRMKitFacade"/>
+	<bean class="com.sap.sapbasket.facades.impl.DefaultCRMKitFacade" id="defaultCRMKitFacade"/>
+	<alias alias="crmkitConverter" name="defaultCRMKitConverter"/>
+	<bean id="defaultCRMKitConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.automation.data.CRMKitData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="crmkitPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<alias alias="crmkitPopulator" name="defaultCRMKitPopulator"/>
+	<bean class="com.sap.sapbasket.facades.populators.CustomCRMKitPopulator" id="defaultCRMKitPopulator">
+		<property name="kitOwnerConverter" ref="b2BCustomerConverter"/>
+		<property name="b2bUnitConverter" ref="b2bUnitConverter"/>
 	</bean>
 	
-	<alias name="CustomCustomerPopulator" alias="customerPopulator"/>
-	<bean id="CustomCustomerPopulator" class="com.sap.sapbasket.facades.populators.CustomCustomerPopulator" parent="defaultCustomerPopulator"></bean>
-</beans>
+<alias alias="addressPopulator" name="customAddressPopulator"/><bean class="com.sap.sapbasket.facades.populators.CustomAddressPopulator" id="customAddressPopulator" parent="defaultAddressPopulator"/><alias alias="addressReversePopulator" name="customAddressReversePopulator"/><bean class="com.sap.sapbasket.facades.populators.CustomAddressReversePopulator" id="customAddressReversePopulator" parent="defaultAddressReversePopulator"/><alias alias="crmFacade" name="defaultCRMFacade"/><bean class="com.sap.sapbasket.facades.impl.DefaultCRMFacade" id="defaultCRMFacade"/><alias alias="crmConverter" name="defaultCRMConverter"/><bean id="defaultCRMConverter" parent="abstractPopulatingConverter"><property name="targetClass" value="de.hybris.platform.commercefacades.automation.data.CRMData"/><property name="populators"><list merge="true"><ref bean="crmPopulator"/></list></property></bean><alias alias="crmPopulator" name="defaultCRMPopulator"/><bean class="com.sap.sapbasket.facades.populators.CustomCRMPopulator" id="defaultCRMPopulator"><property name="kitOwnerConverter" ref="b2BCustomerConverter"/></bean></beans>

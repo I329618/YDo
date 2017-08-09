@@ -20,7 +20,7 @@ public class CustomCustomerPopulator extends CustomerPopulator
 		super.populate(source, target);
 
 		target.setDate_of_birth(source.getDate_of_birth());
-		target.setEmail(source.getEmail());
+		/* target.setEmail(source.getEmail()); */
 		target.setMobile_number(source.getMobile_number());
 		target.setLandline_number(source.getLandline_number());
 
