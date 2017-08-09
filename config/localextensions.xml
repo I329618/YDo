@@ -16,7 +16,6 @@
     <extension name='couponfacades' />
     <extension name='promotionenginesamplesaddon' />
     <extension name='promotionengineatddtests' />
-    <extension name="promotionenginetrail"/>
     <extension name="codegenerationwebservices"/>
 	<extension name="electronicsstore"/>
 	<extension name="b2bcommerce"/>
