@@ -9,13 +9,6 @@
 	<extension name='mcc' />
     <extension name="hmc"/>
     <extension name="backoffice"/>
-    <extension name='rulebuilderbackoffice' />
-	<extension name="yaddon"/>
-    <extension name='couponbackoffice' />
-    <extension name='droolsruleengineservices' />
-    <extension name='couponfacades' />
-    <extension name='promotionenginesamplesaddon' />
-    <extension name='promotionengineatddtests' />
     <extension name="codegenerationwebservices"/>
 	<extension name="electronicsstore"/>
 	<extension name="b2bcommerce"/>
