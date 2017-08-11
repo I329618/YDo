@@ -20,7 +20,6 @@
 		<formElement:formSelectBox idKey="address.region" labelKey="address.state" path="regionIso" mandatory="true" skipBlank="false" skipBlankMessageKey="address.state" items="${regions}" itemValue="${useShortRegionIso ? 'isocodeShort' : 'isocode'}" selectedValue="${addressForm.regionIso}" selectCSSClass="form-control"/>
 		<formElement:formInputBox idKey="address.postcode" labelKey="address.zipcode" path="postcode" inputCSS="form-control" mandatory="true" />
         <formElement:formInputBox idKey="address.phone" labelKey="address.phone" path="phone" inputCSS="form-control" mandatory="false" />
-        <formElement:formInputBox idKey="address.landmark" labelKey="address.landmark" path="landmark" inputCSS="form-control" mandatory="false" />
         
 	</c:when>
 	<c:when test="${country == 'CA'}">
@@ -33,7 +32,6 @@
 		<formElement:formSelectBox idKey="address.region" labelKey="address.province" path="regionIso" mandatory="true" skipBlank="false" skipBlankMessageKey="address.state" items="${regions}" itemValue="${useShortRegionIso ? 'isocodeShort' : 'isocode'}" selectedValue="${addressForm.regionIso}" selectCSSClass="form-control"/>
 		<formElement:formInputBox idKey="address.postcode" labelKey="address.postalcode" path="postcode" inputCSS="form-control" mandatory="true" />
         <formElement:formInputBox idKey="address.phone" labelKey="address.phone" path="phone" inputCSS="form-control" mandatory="false" />
-        <formElement:formInputBox idKey="address.landmark" labelKey="address.landmark" path="landmark" inputCSS="form-control" mandatory="false" />
         
 	</c:when>
 	<c:when test="${country == 'CN'}">
@@ -46,7 +44,6 @@
 		<formElement:formInputBox idKey="address.firstName" labelKey="address.firstName" path="firstName" inputCSS="form-control" mandatory="true" />
 		<formElement:formSelectBox idKey="address.title" labelKey="address.title" path="titleCode" mandatory="true" skipBlank="false" skipBlankMessageKey="address.title.pleaseSelect" items="${titles}" selectedValue="${addressForm.titleCode}" selectCSSClass="form-control"/>
         <formElement:formInputBox idKey="address.phone" labelKey="address.phone" path="phone" inputCSS="form-control" mandatory="false" />
-        <formElement:formInputBox idKey="address.landmark" labelKey="address.landmark" path="landmark" inputCSS="form-control" mandatory="false" />
        
 	</c:when>
 	<c:when test="${country == 'JP'}">
@@ -59,7 +56,6 @@
 		<formElement:formSelectBox idKey="address.region" labelKey="address.prefecture" path="regionIso" mandatory="true" skipBlank="false" skipBlankMessageKey="address.selectPrefecture" items="${regions}" itemValue="${useShortRegionIso ? 'isocodeShort' : 'isocode'}" selectedValue="${addressForm.regionIso}" selectCSSClass="form-control"/>
 		<formElement:formInputBox idKey="address.postalcode" labelKey="address.postcode" path="postcode" inputCSS="form-control" mandatory="true" />
         <formElement:formInputBox idKey="address.phone" labelKey="address.phone" path="phone" inputCSS="form-control" mandatory="false" />
-        <formElement:formInputBox idKey="address.landmark" labelKey="address.landmark" path="landmark" inputCSS="form-control" mandatory="false" />
         
 	</c:when>
 	<c:otherwise>
@@ -71,8 +67,7 @@
 		<formElement:formInputBox idKey="address.townCity" labelKey="address.townCity" path="townCity" inputCSS="form-control" mandatory="true" />
 		<formElement:formInputBox idKey="address.postcode" labelKey="address.postcode" path="postcode" inputCSS="form-control" mandatory="true" />
         <formElement:formInputBox idKey="address.phone" labelKey="address.phone" path="phone" inputCSS="form-control" mandatory="false" />
-        <formElement:formInputBox idKey="address.landmark" labelKey="address.landmark" path="landmark" inputCSS="form-control" mandatory="false" />
-        
+   
 	</c:otherwise>
 </c:choose>
 

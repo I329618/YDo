@@ -21,8 +21,7 @@ import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.Breadcrumb;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.ResourceBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyConstants;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.AbstractSearchPageController.ShowMode;
-/*axle*/
-import com.sap.sapbasket.storefront.forms.CustomAddressForm;
+import de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateEmailForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdatePasswordForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.AddressValidator;
@@ -161,7 +160,7 @@ public class AccountPageControllerTest
 	@Mock
 	private AbstractPageModel abstractPageModel;
 	@Mock
-	private CustomAddressForm addressForm;
+	private AddressForm addressForm;
 	@Mock
 	private UpdateEmailForm emailForm;
 	@Mock
@@ -286,7 +285,7 @@ public class AccountPageControllerTest
 	@Test
 	public void shouldPrepareAddress()
 	{
-		final CustomAddressForm addressForm = accountController.getPreparedAddressForm();
+		final AddressForm addressForm = accountController.getPreparedAddressForm();
 		assertEquals(FIRST_NAME, addressForm.getFirstName());
 		assertEquals(LAST_NAME, addressForm.getLastName());
 		assertEquals(TITLE_CODE, addressForm.getTitleCode());

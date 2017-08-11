@@ -593,8 +593,8 @@ public class GenerateCode {
 
 			for (int i = 0; i < prop.size(); i++) {
 				if (isAComplexType(prop.get(i).getDataType())) {
-					importData += "import "+prop.get(i).getDataBeanCanonicalName() +";"+ "\n";
-					importModel += "import "+ prop.get(i).getModelPackage() + "."
+					importData += "import " + prop.get(i).getDataBeanCanonicalName() + ";" + "\n";
+					importModel += "import " + prop.get(i).getModelPackage() + "."
 							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model;" + "\n";
 				}
 			}
@@ -888,11 +888,13 @@ public class GenerateCode {
 
 					"public class Custom" + code + "ReversePopulator " + implementsInterface + extendsClass + "{\n"
 					+ "@Override\n" + "public void populate(final " + code + "Data source, final " + dataBean
-					+ "Model target) throws ConversionException\n" + "{\n" + superPopulate +
-
-					"\ntarget.set" + qualifier + "(source.get" + qualifier + "());\n" + "}\n" +
-
-					"}");
+					+ "Model target) throws ConversionException\n" + "{\n" + superPopulate);
+			for (int i = 0; i < prop.size(); i++) {
+				pw.println("\ntarget.set" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+						+ "(source.get" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+						+ "());\n");
+			}
+			pw.println("}\n" + "}");
 			pw.flush();
 
 		} catch (final Exception e) {
@@ -1041,11 +1043,21 @@ public class GenerateCode {
 					+ code.toLowerCase() + "Form);\n" + code.toLowerCase()
 					+ "Data.setVisibleInAddressBook(true);\nreturn " + code.toLowerCase() + "Data;\n}\npublic " + code
 					+ "Data convertToAddressData(final Custom" + code + "Form " + code.toLowerCase() + "Form)\n" + "{\n"
-					+ superPopulate + "\n" + code.toLowerCase() + "Data.set" + qualifier + "(" + code.toLowerCase()
-					+ "Form.get" + qualifier + "());\n return " + code.toLowerCase() + "Data;\n" + "}\n"
-					+ "public void convert(final " + code + "Data source, final Custom" + code
-					+ "Form target)\n{                           \nsuper.convert(source, target);\ntarget.set"
-					+ qualifier + "(source.get" + qualifier + "());\n          }" + "}");
+					+ superPopulate + "\n");
+			for (int i = 0; i < prop.size(); i++) {
+				pw.println(StringUtils.convertFirstLetterToLowerCase(code) + "Data.set"
+						+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "("
+						+ StringUtils.convertFirstLetterToLowerCase(code) + "Form.get"
+						+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "());\n");
+			}
+			pw.println("return " + code.toLowerCase() + "Data;\n" + "}\n" + "public void convert(final " + code
+					+ "Data source, final Custom" + code + "Form target)\n{		\nsuper.convert(source, target);\n");
+			for (int i = 0; i < prop.size(); i++) {
+				pw.println("\ntarget.set" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+						+ "(source.get" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+						+ "());\n");
+			}
+			pw.println("}" + "\n}");
 			pw.flush();
 
 		} catch (final Exception e) {
@@ -1130,11 +1142,21 @@ public class GenerateCode {
 
 				pw.println("/*axle*/\npackage com.sap." + extensionName
 						+ ".storefront.forms;\nimport de.hybris.platform.acceleratorstorefrontcommons.forms." + code
-						+ "Form;\npublic class Custom" + code + "Form extends " + code + "Form{\nprivate " + dataType
-						+ " " + qualifier.toLowerCase() + ";\npublic " + dataType + " get" + qualifier
-						+ "()\n{\nreturn " + qualifier.toLowerCase() + ";\n}\npublic void set" + qualifier + "(final "
-						+ dataType + " " + qualifier.toLowerCase() + "){\nthis." + qualifier.toLowerCase() + " = "
-						+ qualifier.toLowerCase() + ";\n}\n}");
+						+ "Form;\npublic class Custom" + code + "Form extends " + code + "Form{\n");
+				for (int i = 0; i < prop.size(); i++) {
+					pw.println("private " + prop.get(i).getDataType() + " "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + ";\npublic "
+							+ prop.get(i).getDataType() + " get"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "()\n{\nreturn "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ ";\n}\npublic void set"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "(final "
+							+ prop.get(i).getDataType() + " "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + "){\nthis."
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + " = "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + ";\n}");
+				}
+				pw.println("\n}");
 				pw.flush();
 
 			}
@@ -1149,10 +1171,14 @@ public class GenerateCode {
 			final String filepath = "C://mock/hybris/bin/custom/sapbasket/sapbasketstorefront/web/webroot/WEB-INF/tags/responsive/address/addressFormElements.tag";
 			List<String> lines = Files.readAllLines(Paths.get(filepath));
 			String currentLine = null;
-			for (int i = 0; i < lines.size(); i++) {
-				currentLine = lines.get(i);
-				if (currentLine.contains(twinFeild)) {
-					lines.add(i + 1, currentLine.replace(twinFeild, qualifier.toLowerCase()));
+			for (int j = 0; j < prop.size(); j++) {
+				twinFeild = prop.get(j).getTwinFeild();
+				for (int i = 0; i < lines.size(); i++) {
+					currentLine = lines.get(i);
+					if (currentLine.contains(twinFeild)) {
+						lines.add(i + 1, currentLine.replace(twinFeild,
+								StringUtils.convertFirstLetterToLowerCase(prop.get(j).getQualifier())));
+					}
 				}
 			}
 			if (!lines.get(0).contains("<!--"))
@@ -1192,7 +1218,31 @@ public class GenerateCode {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void editJsp3() {
+		try {
+			final String filepath = "C://mock/hybris/bin/custom/sapbasket/sapbasketstorefront/web/webroot/WEB-INF/views/responsive/fragments/address/countryAddressForm.jsp";
+			List<String> lines = Files.readAllLines(Paths.get(filepath));
+			String currentLine = null;
+			for (int i = 0; i < lines.size(); i++) {
+				currentLine = lines.get(i);
+				if (currentLine.contains("commandName")) {
+					lines.remove(i);
+					lines.add(i, currentLine.replaceAll("addressForm", "customAddressForm"));
+				}
+			}
+			if (!lines.get(0).contains("<!--"))
+				lines.add(0, "<!-- axle -->");
+			FileWriter writer = new FileWriter(filepath);
+			for (String str : lines) {
+				writer.write(str + "\n");
+			}
+			writer.close();
 
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void listf(String directoryName, ArrayList<File> files) {
