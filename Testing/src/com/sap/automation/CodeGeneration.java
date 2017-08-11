@@ -1,17 +1,8 @@
 package com.sap.automation;
 
-import java.io.IOException;
-/**
-*
-* @author I328800
-*/
-import java.net.InetSocketAddress;
-
 import com.sap.codeautomation.AddAttributeToExistingType;
 import com.sap.codeautomation.NewItemType;
 import com.sap.jsonmodels.InputData;
-import com.sap.webservice.HandleGETRequests;
-import com.sun.net.httpserver.HttpServer;
 
 public class CodeGeneration {
 

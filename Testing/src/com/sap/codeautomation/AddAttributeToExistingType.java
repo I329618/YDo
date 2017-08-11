@@ -19,6 +19,7 @@ public class AddAttributeToExistingType {
 		GenerateCode.generateFormToDataClass();
 		GenerateCode.editJsp1();
 		GenerateCode.editJsp2();
+		GenerateCode.editJsp3();
 		HybrisActions.AntCleanAll();
 	}
 }
