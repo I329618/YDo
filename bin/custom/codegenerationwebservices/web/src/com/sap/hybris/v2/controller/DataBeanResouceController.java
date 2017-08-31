@@ -3,7 +3,9 @@
  */
 package com.sap.hybris.v2.controller;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -92,6 +94,66 @@ public class DataBeanResouceController
 		final StringWrapper sw = new StringWrapper();
 		final Gson gson = new Gson();
 		final String json = gson.toJson(composedMap);
+		sw.setStr(json);
+
+		return sw;
+	}
+
+	@GET
+	@RequestMapping(value = "/getfieldsforcomposedtypesjson", method = RequestMethod.GET)
+	@Produces(
+	{ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public @ResponseBody StringWrapper getfieldsforcomposedtypesjson()
+	{
+		final Map<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
+
+		final Map<String, ArrayList<DataBeanResouces>> converterDataMap = defaultAutomationFacade.getList();
+
+		for (final Map.Entry<String, ArrayList<DataBeanResouces>> entry : converterDataMap.entrySet())
+		{
+			String x = null;
+
+			for (final DataBeanResouces y : entry.getValue())
+			{
+				x = y.getDataBeanCanonicalName();
+			}
+
+			Field fieldList[] = null;
+			try
+			{
+				Class<?> current = Class.forName(x);
+				final ArrayList<String> columnNames = new ArrayList<String>();
+
+				while (current.getSuperclass() != null)
+				{
+					fieldList = current.getDeclaredFields();
+					current = current.getSuperclass();
+
+					for (int i = 0; i < fieldList.length; i++)
+					{
+						columnNames.add(fieldList[i].getName());
+					}
+
+				}
+				map.put(entry.getKey(), columnNames);
+
+			}
+			catch (final SecurityException e)
+			{
+				// YTODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch (final ClassNotFoundException e)
+			{
+				// YTODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		final StringWrapper sw = new StringWrapper();
+		final Gson gson = new Gson();
+		final String json = gson.toJson(map);
 		sw.setStr(json);
 
 		return sw;
