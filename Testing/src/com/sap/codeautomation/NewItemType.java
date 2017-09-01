@@ -23,6 +23,8 @@ public class NewItemType {
 		GenerateCode.generatePopulatorForNewItemType();
 		GenerateCode.generatepopulatorBeanForNewItemType();
 		GenerateCode.generateControllerForNewItemType();
+		GenerateCode.generateReversePopulatorForNewItemType();
+		GenerateCode.generatereversepopulatorBeanForNewItemType();
 		HybrisActions.AntCleanAll();
 	}
 }

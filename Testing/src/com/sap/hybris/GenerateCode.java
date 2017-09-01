@@ -419,10 +419,14 @@ public class GenerateCode {
 			File f1 = new File("C://mock/hybris/bin/custom/sapbasket/sapbasketfacades/src/com/sap/sapbasket/facades/"
 					+ code + "Facade.java");
 			PrintWriter pw = new PrintWriter(f1);
-			pw.println("/*axle*/\npackage com.sap." + extensionName
+			String toBePrinted = "/*axle*/\npackage com.sap." + extensionName
 					+ ".facades;\n\nimport de.hybris.platform.commercefacades.automation.data." + code
 					+ "Data;\nimport java.util.List;\nimport de.hybris.platform.commerceservices.customer.DuplicateUidException;\nimport de.hybris.platform.servicelayer.dto.converter.ConversionException;\n\n\npublic interface "
-					+ code + "Facade\n{\n\tpublic List<" + code + "Data> get" + code + "();\n} ");
+					+ code + "Facade\n{\n\tpublic List<" + code + "Data> get" + code + "();\n\tpublic Boolean post"
+					+ code + "(final " + code + "Data " + StringUtils.convertFirstLetterToLowerCase(code)
+					+ "Data);\n} ";
+
+			pw.println(toBePrinted);
 			pw.flush();
 
 		} catch (final Exception e) {
@@ -436,28 +440,48 @@ public class GenerateCode {
 					"C://mock/hybris/bin/custom/sapbasket/sapbasketfacades/src/com/sap/sapbasket/facades/impl/Default"
 							+ code + "Facade.java");
 			PrintWriter pw = new PrintWriter(f1);
-			pw.println(
-					"/*axle*/\npackage com.sap.sapbasket.facades.impl;\nimport java.util.ArrayList;\nimport java.util.List;\nimport javax.annotation.Resource;\nimport com.sap."
-							+ extensionName + ".core.model." + code
-							+ "Model;\nimport de.hybris.platform.commercefacades.automation.data." + code
-							+ "Data;\nimport com.sap." + extensionName + ".core.service.impl.Default" + code
-							+ "Service;\nimport com.sap." + extensionName + ".facades." + code
-							+ "Facade;\nimport com.sap." + extensionName + ".facades.populators.Custom" + code
-							+ "Populator;\npublic class Default" + code + "Facade implements " + code + "Facade\n"
-							+ "{\n" + "@Resource(name = \"" + code.toLowerCase() + "Service\")\n" + "Default" + code
-							+ "Service default" + code.toLowerCase() + "Service;\n" + "@Resource(name = \""
-							+ code.toLowerCase() + "Populator\")\nCustom" + code + "Populator " + code.toLowerCase()
-							+ "Populator;\n" + "@Override\n" + "public List<" + code + "Data> get" + code + "()\n"
-							+ "{\n" + "final List<" + code + "Model> " + code.toLowerCase() + "Models = default"
-							+ code.toLowerCase() + "Service.get" + code + "();\n" +
+			String toPrint = "/*axle*/\npackage com.sap.sapbasket.facades.impl;"
+					+ "\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport javax.annotation.Resource;\nimport com.sap."
+					+ extensionName + ".core.model." + code + "Model;"
+					+ "\nimport de.hybris.platform.servicelayer.dto.converter.Converter;"
+					+ "\nimport de.hybris.platform.servicelayer.model.ModelService;"
+					+ "\nimport de.hybris.platform.commercefacades.automation.data." + code + "Data;\nimport com.sap."
+					+ extensionName + ".core.service.impl.Default" + code + "Service;\nimport com.sap." + extensionName
+					+ ".facades." + code + "Facade;\nimport com.sap." + extensionName + ".facades.populators.Custom"
+					+ code + "Populator;" + "\n\npublic class Default" + code + "Facade implements " + code + "Facade"
+					+ "\n{\n\t" + "@Resource(name = \"" + code.toLowerCase() + "Service\")" + "\n\t" + "Default" + code
+					+ "Service default" + code.toLowerCase() + "Service;\n" + "\n\t@Resource(name = \""
+					+ code.toLowerCase() + "Populator\")" + "\n\tCustom" + code + "Populator " + code.toLowerCase()
+					+ "Populator;" + "\n\n\t@Resource(name = \"modelService\") \n\tprivate ModelService modelService;\n"
+					+ "\n\t@Resource(name = \"" + code.toLowerCase() + "ReverseConverter\")\n" + "\tprivate Converter<"
+					+ code + "Data, " + code + "Model> " + code.toLowerCase() + "ReverseConverter;\n\n"
+					+ "\tpublic Converter<" + code + "Data, " + code + "Model> get" + code
+					+ "ReverseConverter()\n\t{\n\t\treturn " + code.toLowerCase() + "ReverseConverter;\n\t}"
+					+ "\n\n\tpublic void set" + code + "ReverseConverter(final Converter<" + code + "Data, " + code
+					+ "Model> " + code.toLowerCase() + "ReverseConverter)\n\t{" + "\n\t\tthis." + code.toLowerCase()
+					+ "ReverseConverter=" + code.toLowerCase() + "ReverseConverter;\n\t}"
 
-							"final List<" + code + "Data> " + code.toLowerCase() + "List = new ArrayList<" + code
-							+ "Data>();\n" + code + "Data " + code.toLowerCase() + "Data = null;\n" + "for (final "
-							+ code + "Model " + code.toLowerCase() + "Model : " + code.toLowerCase() + "Models)\n"
-							+ "{\n" + code.toLowerCase() + "Data = new " + code + "Data();\n" + code.toLowerCase()
-							+ "Populator.populate(" + code.toLowerCase() + "Model, " + code.toLowerCase() + "Data);\n"
-							+ code.toLowerCase() + "List.add(" + code.toLowerCase() + "Data);\n}\nreturn "
-							+ code.toLowerCase() + "List;\n}\n}");
+					+ "\n" + "\n\t@Override\n" + "\tpublic List<" + code + "Data> get" + code + "()\n" + "\t{\n"
+					+ "\t\tfinal List<" + code + "Model> " + code.toLowerCase() + "Models = default"
+					+ code.toLowerCase() + "Service.get" + code + "();\n" + "\t\tfinal List<" + code + "Data> "
+					+ code.toLowerCase() + "List = new ArrayList<" + code + "Data>();\n\t\t" + code + "Data "
+					+ code.toLowerCase() + "Data = null;\n" + "\t\tfor (final " + code + "Model " + code.toLowerCase()
+					+ "Model : " + code.toLowerCase() + "Models)\n\t\t" + "{\n\t\t\t" + code.toLowerCase()
+					+ "Data = new " + code + "Data();\n\t\t\t" + code.toLowerCase() + "Populator.populate("
+					+ code.toLowerCase() + "Model, " + code.toLowerCase() + "Data);\n\t\t\t" + code.toLowerCase()
+					+ "List.add(" + code.toLowerCase() + "Data);\n\t\t}\n\t\treturn " + code.toLowerCase()
+					+ "List;\n\t}"
+
+					+ "\n\n\t" + "@Override\n\tpublic Boolean post" + code + "(final " + code + "Data "
+					+ StringUtils.convertFirstLetterToLowerCase(code) + "Data) \n\t" + "{\n\t\ttry{\n\t\t\tfinal "
+					+ code + "Model " + StringUtils.convertFirstLetterToLowerCase(code) + "Model = new " + code
+					+ "Model();" + "\n\t\t\tget" + code + "ReverseConverter().convert("
+					+ StringUtils.convertFirstLetterToLowerCase(code) + "Data,"
+					+ StringUtils.convertFirstLetterToLowerCase(code) + "Model);" + "\n\t\t\tmodelService.save("
+					+ StringUtils.convertFirstLetterToLowerCase(code) + "Model);"
+					+ "\n\t\t\treturn Boolean.TRUE;\n\t\t}\n\t\tcatch(final Exception e){\n\t\t\treturn Boolean.FALSE;\n\t\t}"
+					+ "\n\t}\n}";
+			pw.println(toPrint);
 			pw.flush();
 
 		} catch (final Exception e) {
@@ -820,15 +844,45 @@ public class GenerateCode {
 					"C://mock/hybris/bin/custom/sapbasket/sapbasketstorefront/web/src/com/sap/sapbasket/storefront/controllers/pages/Dummy"
 							+ code + "Controller.java");
 			PrintWriter pw = new PrintWriter(f1);
+
+			String importData = "", importModel = "";
+			for (int i = 0; i < prop.size(); i++) {
+				if (isAComplexType(prop.get(i).getDataType())) {
+					importData += "import " + prop.get(i).getDataBeanCanonicalName() + ";" + "\n";
+					importModel += "import " + prop.get(i).getModelPackage() + "."
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model;" + "\n";
+				} else if (prop.get(i).getDataType().equalsIgnoreCase("date")) {
+					importData += "import java.util.Date;\n";
+				}
+			}
+
 			pw.println("/*axle*/\npackage com.sap." + extensionName
 					+ ".storefront.controllers.pages;\n\nimport de.hybris.platform.acceleratorstorefrontcommons.annotations.RequireHardLogIn;\nimport de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.AbstractSearchPageController;\nimport de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;\nimport javax.annotation.Resource;\n\nimport java.util.List;\nimport org.codehaus.jackson.map.ObjectMapper;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestMethod;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport com.sap."
 					+ extensionName + ".facades.impl.Default" + code
-					+ "Facade;\nimport de.hybris.platform.commercefacades.automation.data." + code
-					+ "Data;\n\n@Controller\n@RequestMapping(\"/metadata" + code.toLowerCase()
-					+ "\")\npublic class Dummy" + code
-					+ "Controller extends AbstractSearchPageController\n{\n@Resource(name = \"" + code.toLowerCase()
-					+ "Facade\")\nprivate Default" + code + "Facade " + code.toLowerCase()
-					+ "Facade;\n\n@RequestMapping(value = \"/" + code.toLowerCase()
+					+ "Facade;\nimport de.hybris.platform.commercefacades.automation.data." + code + "Data;\n"
+					+ "import de.hybris.platform.servicelayer.dto.converter.Converter;\n"
+					+ "import de.hybris.platform.servicelayer.search.FlexibleSearchService;\n"
+					+ "import de.hybris.platform.servicelayer.user.UserService;\n" + importData + importModel
+					+ "\n\n@Controller\n@RequestMapping(\"/metadata" + code.toLowerCase() + "\")\npublic class Dummy"
+					+ code + "Controller extends AbstractSearchPageController\n{\n@Resource(name = \""
+					+ code.toLowerCase() + "Facade\")\nprivate Default" + code + "Facade " + code.toLowerCase()
+					+ "Facade;"
+					+ "@Resource(name = \"flexibleSearchService\")\nprivate FlexibleSearchService flexibleSearchService;"
+					+ "@Resource(name = \"userService\")private UserService userService;");
+
+			for (int i = 0; i < prop.size(); i++)
+				if (isAComplexType(prop.get(i).getDataType())) {
+					String s[] = prop.get(i).getDataBeanCanonicalName().split("\\.");
+					pw.println("\n@Resource(name=\""
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getAliasName()) + "Converter\")");
+					pw.println("private Converter<"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model, "
+							+ StringUtils.convertFirstLetterToUpperCase(s[(s.length - 1)]) + "> "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + "Converter;\n");
+
+				}
+
+			pw.println("\n\n@RequestMapping(value = \"/get" + code.toLowerCase()
 					+ "\", method = RequestMethod.GET)\n@RequireHardLogIn\n@ResponseBody\npublic String get" + code
 					+ "() throws CMSItemNotFoundException\n{\nfinal List<" + code + "Data> " + code.toLowerCase()
 					+ "Data = " + code.toLowerCase() + "Facade.get" + code
@@ -837,12 +891,79 @@ public class GenerateCode {
 					+ "Model List</title></head>\");\nhtmlBuilder.append(\"<body>\");\nhtmlBuilder.append(\"<h3>List of "
 					+ code + "Model</h3>\");\nfor (int i = 0; i < " + code.toLowerCase()
 					+ "Data.size(); i++)\n{\nString temp = m.writeValueAsString(" + code.toLowerCase()
-					+ "Data.get(i));\ntemp = temp.replace(\"{\", \"\");\ntemp = temp.replace(\"}\", \"\");\ntemp = temp.replace(\"\\\"\", \"\");\nhtmlBuilder.append(\"<p>\" + temp + \"</p>\");\n}\nhtmlBuilder.append(\"</body>\");\nhtmlBuilder.append(\"</html>\");\nreturn htmlBuilder.toString();\n}\ncatch (final Exception e)\n{\ne.printStackTrace();\nreturn \"Unable to fetech the Data\";\n}\n}\n}");
+					+ "Data.get(i));\ntemp = temp.replace(\"{\", \"\");\ntemp = temp.replace(\"}\", \"\");\ntemp = temp.replace(\"\\\"\", \"\");\nhtmlBuilder.append(\"<p>\" + temp + \"</p>\");\n}\nhtmlBuilder.append(\"</body>\");\nhtmlBuilder.append(\"</html>\");\nreturn htmlBuilder.toString();\n}\ncatch (final Exception e)\n{\ne.printStackTrace();\nreturn \"Unable to fetech the Data\";\n}\n}");
+
+			pw.println("\n\n@RequestMapping(value = \"/post" + code.toLowerCase()
+					+ "\", method = RequestMethod.GET)\n@RequireHardLogIn\n@ResponseBody\npublic String post" + code
+					+ "() throws CMSItemNotFoundException\n{\n\nfinal " + code + "Data " + code.toLowerCase()
+					+ "Data = new " + code + "Data();");
+
+			for (int i = 0; i < prop.size(); i++)
+				if (isAComplexType(prop.get(i).getDataType())) {
+
+					pw.println("\nfinal " + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType())
+							+ "Model " + StringUtils.convertFirstLetterToLowerCase(prop.get(i).getDataType())
+							+ "Model = new " + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType())
+							+ "Model();");
+
+					if (prop.get(i).getDataType().equalsIgnoreCase("b2bcustomer")) {
+						pw.println("b2BCustomerModel.setUid(\"customer.k@rustic-hw.com\");");
+					} else if (prop.get(i).getDataType().equalsIgnoreCase("b2bunit")) {
+						pw.println("b2BUnitModel.setUid(\"B2BUnitA\");");
+					}
+
+				}
+
+			for (int i = 0; i < prop.size(); i++) {
+
+				if (isAComplexType(prop.get(i).getDataType())) {
+					pw.println(code.toLowerCase() + "Data.set"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "("
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "Converter.convert(flexibleSearchService.getModelByExample("
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getDataType()) + "Model)));");
+
+				} else if (prop.get(i).getDataType().equalsIgnoreCase("date")) {
+
+					pw.println(code.toLowerCase() + "Data.set"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "(new Date(\"Sep 16, 2015 10:34:23 AM\"));");
+				} else if (prop.get(i).getDataType().equalsIgnoreCase("boolean")) {
+					pw.println(code.toLowerCase() + "Data.set"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "(true);");
+				} else if (prop.get(i).getDataType().equalsIgnoreCase("string")) {
+
+					if (prop.get(i).getQualifier().equalsIgnoreCase("kitcode")) {
+						pw.println(code.toLowerCase() + "Data.set"
+								+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+								+ "(\"i328673\");");
+					} else if (prop.get(i).getQualifier().equalsIgnoreCase("kitname")) {
+						pw.println(code.toLowerCase() + "Data.set"
+								+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+								+ "(\"vinay\");");
+					} else {
+						pw.println(code.toLowerCase() + "Data.set"
+								+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+								+ "(\"vinay\");");
+					}
+				}
+			}
+
+			pw.println("\n" + code.toLowerCase() + "Facade.post" + code + "(" + code.toLowerCase() + "Data);");
+
+			pw.println("\ntry\n{\nfinal StringBuilder htmlBuilder = new StringBuilder();"
+					+ "\nhtmlBuilder.append(\"<html>\");\nhtmlBuilder.append(\"<head><title>Save " + code
+					+ "Model</title></head>\");" + "htmlBuilder.append(\"<body>\");\nhtmlBuilder.append(\"<h3>Saved "
+					+ code + "Model</h3>\");" + "\nhtmlBuilder.append(\"</body>\");\nhtmlBuilder.append(\"</html>\");"
+					+ "\nreturn htmlBuilder.toString();\n}catch (final Exception e){\n"
+					+ "\ne.printStackTrace();\nreturn \"Unable to save the Data\";\n}\n}");
+			pw.println("\n}");
 
 			pw.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static void generatereversePopulator() {
@@ -935,6 +1056,100 @@ public class GenerateCode {
 		}
 	}
 
+	public static void generateReversePopulatorForNewItemType() {
+		try {
+			File f1 = new File(
+					"C://mock/hybris/bin/custom/sapbasket/sapbasketfacades/src/com/sap/sapbasket/facades/populators/Custom"
+							+ code + "ReversePopulator.java");
+			PrintWriter pw = new PrintWriter(f1);
+			String dataFromXml = "";
+			String superPopulate = "";
+			String extendsClass = "";
+			String newItemPopulaterInterface = "";
+			String newItemOtherImports = "";
+			String implementsInterface = "";
+			String dataBean = "";
+			String str = "";
+			String importData = "";
+
+			String importModel = "";
+
+			newItemPopulaterInterface = "import de.hybris.platform.converters.Populator;\n";
+			newItemOtherImports = "import de.hybris.platform.commercefacades.automation.data." + code + "Data;\n"
+					+ "import com.sap." + extensionName + ".core.model." + code + "Model;\n";
+			implementsInterface = "implements Populator<" + code + "Data, " + code + "Model>\n";
+			dataBean = code;
+
+			for (int i = 0; i < prop.size(); i++) {
+				if (isAComplexType(prop.get(i).getDataType())) {
+					importData += "import " + prop.get(i).getDataBeanCanonicalName() + ";" + "\n";
+					importModel += "import " + prop.get(i).getModelPackage() + "."
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model;" + "\n";
+				}
+			}
+			pw.println("/*ydo*/\npackage com.sap." + extensionName + ".facades.populators;"
+					+ "\nimport de.hybris.platform.servicelayer.dto.converter.Converter;\nimport de.hybris.platform.servicelayer.search.FlexibleSearchService;\nimport javax.annotation.Resource;"
+					+ newItemPopulaterInterface + newItemOtherImports + dataFromXml + importModel + importData
+					+ "public class Custom" + code + "ReversePopulator " + implementsInterface + extendsClass
+					+ "{\n@Resource(name = \"flexibleSearchService\")\nprivate FlexibleSearchService flexibleSearchService;");
+			for (int i = 0; i < prop.size(); i++) {
+				if (isAComplexType(prop.get(i).getDataType())) {
+					String s[] = prop.get(i).getDataBeanCanonicalName().split("\\.");
+					pw.println("private Converter<" + StringUtils.convertFirstLetterToUpperCase(s[(s.length - 1)])
+							+ ", " + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model > "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "ReverseConverter;\n");
+					pw.println("public Converter<" + StringUtils.convertFirstLetterToUpperCase(s[(s.length - 1)]) + ", "
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model" + "> get"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "ReverseConverter() {\nreturn "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "ReverseConverter;\n}");
+					pw.println("public void set" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "ReverseConverter(final Converter<"
+							+ StringUtils.convertFirstLetterToUpperCase(s[(s.length - 1)]) + ", "
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType()) + "Model" + ">"
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "ReverseConverter) {\nthis."
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "ReverseConverter = "
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier())
+							+ "ReverseConverter;\n}");
+				}
+			}
+			pw.println("@Override\n" + "public void populate(final " + code + "Data source, final " + dataBean
+					+ "Model target)\n" + "{\n" + superPopulate);
+
+			for (int i = 0; i < prop.size(); i++) {
+				if (isAComplexType(prop.get(i).getDataType())) {
+					pw.println("if(source.get" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "() != null)");
+					pw.println("\n{final " + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType())
+							+ "Model " + StringUtils.convertFirstLetterToLowerCase(prop.get(i).getDataType())
+							+ "Model = new " + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getDataType())
+							+ "Model();");
+					pw.println(StringUtils.convertFirstLetterToLowerCase(prop.get(i).getDataType())
+							+ "Model.setUid(source.get"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier()) + "().getUid());");
+					pw.println("target.set" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "(get" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "ReverseConverter().convert(source.get"
+							+ StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "(),flexibleSearchService.getModelByExample("
+							+ StringUtils.convertFirstLetterToLowerCase(prop.get(i).getDataType()) + "Model)));\n}");
+				} else {
+					pw.println("\ntarget.set" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "(source.get" + StringUtils.convertFirstLetterToUpperCase(prop.get(i).getQualifier())
+							+ "());\n");
+				}
+			}
+			pw.println("}\n" + "}");
+			pw.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void generatereversepopulatorBeanForNewItemType() {
 		try {
 			final String filepath = "C://mock/hybris/bin/custom/sapbasket/sapbasketfacades/resources/" + extensionName
@@ -946,16 +1161,16 @@ public class GenerateCode {
 			final Node beans = doc.getElementsByTagName("beans").item(0);
 			// adding new tags
 			final Element aliasconverter = doc.createElement("alias");
-			aliasconverter.setAttribute("name", "default" + code + "Converter");
-			aliasconverter.setAttribute("alias", code.toLowerCase() + "Converter");
+			aliasconverter.setAttribute("name", "default" + code + "ReverseConverter");
+			aliasconverter.setAttribute("alias", code.toLowerCase() + "ReverseConverter");
 
 			final Element beanconverter = doc.createElement("bean");
-			beanconverter.setAttribute("id", "default" + code + "Converter");
+			beanconverter.setAttribute("id", "default" + code + "ReverseConverter");
 			beanconverter.setAttribute("parent", "abstractPopulatingConverter");
 
 			final Element property1 = doc.createElement("property");
 			property1.setAttribute("name", "targetClass");
-			property1.setAttribute("value", "de.hybris.platform.commercefacades.automation.data." + code + "Data");
+			property1.setAttribute("value", "com.sap." + extensionName + ".core.model." + code + "Model");
 
 			final Element property2 = doc.createElement("property");
 			property2.setAttribute("name", "populators");
@@ -964,7 +1179,7 @@ public class GenerateCode {
 			list.setAttribute("merge", "true");
 
 			final Element ref = doc.createElement("ref");
-			ref.setAttribute("bean", code.toLowerCase() + "Populator");
+			ref.setAttribute("bean", code.toLowerCase() + "ReversePopulator");
 
 			list.appendChild(ref);
 			property2.appendChild(list);
@@ -972,12 +1187,22 @@ public class GenerateCode {
 			beanconverter.appendChild(property2);
 
 			final Element aliaspopulator = doc.createElement("alias");
-			aliaspopulator.setAttribute("name", "default" + code + "Populator");
-			aliaspopulator.setAttribute("alias", code.toLowerCase() + "Populator");
+			aliaspopulator.setAttribute("name", "default" + code + "ReversePopulator");
+			aliaspopulator.setAttribute("alias", code.toLowerCase() + "ReversePopulator");
 
 			final Element beanpopulator = doc.createElement("bean");
-			beanpopulator.setAttribute("id", "default" + code + "Populator");
-			beanpopulator.setAttribute("class", "com.sap.sapbasket.facades.populators.Custom" + code + "Populator");
+			beanpopulator.setAttribute("id", "default" + code + "ReversePopulator");
+			beanpopulator.setAttribute("class",
+					"com.sap.sapbasket.facades.populators.Custom" + code + "ReversePopulator");
+			for (int i = 0; i < prop.size(); i++) {
+				if (isAComplexType(prop.get(i).getDataType())) {
+					Element property = doc.createElement("property");
+					property.setAttribute("name",
+							StringUtils.convertFirstLetterToLowerCase(prop.get(i).getQualifier()) + "ReverseConverter");
+					property.setAttribute("ref", prop.get(i).getAliasName());
+					beanpopulator.appendChild(property);
+				}
+			}
 
 			beans.appendChild(aliasconverter);
 			beans.appendChild(beanconverter);
@@ -1219,7 +1444,7 @@ public class GenerateCode {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void editJsp3() {
 		try {
 			final String filepath = "C://mock/hybris/bin/custom/sapbasket/sapbasketstorefront/web/webroot/WEB-INF/views/responsive/fragments/address/countryAddressForm.jsp";

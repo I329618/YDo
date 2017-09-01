@@ -10,7 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="/platform/tomcat/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/i329618/Documents/My Received Files/codemodel-2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/i329618/Documents/My Received Files/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/codemodel-2.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
