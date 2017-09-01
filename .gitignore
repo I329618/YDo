@@ -14,7 +14,7 @@ sonar-project.properties
 **/web/testclasses/
 **/jalo/
 
-.project
+
 hybris-dependencies/
 hybris/sampleconfigurations/
 hybris-oms/

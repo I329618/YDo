@@ -12,7 +12,7 @@ import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateProfileForm;
  */
 public class ExtendedUpdateProfileForm extends UpdateProfileForm
 {
-	private String email;
+	//private String email;
 	private String date_of_birth;
 	private String mobile_number;
 	private String landline_number;
@@ -20,19 +20,17 @@ public class ExtendedUpdateProfileForm extends UpdateProfileForm
 	/**
 	 * @return the email
 	 */
-	public String getEmail()
-	{
-		return email;
-	}
+	/*
+	 * public String getEmail() { return email; }
+	 */
 
 	/**
 	 * @param email
 	 *           the email to set
 	 */
-	public void setEmail(final String email)
-	{
-		this.email = email;
-	}
+	/*
+	 * public void setEmail(final String email) { this.email = email; }
+	 */
 
 	/**
 	 * @return the date_of_birth

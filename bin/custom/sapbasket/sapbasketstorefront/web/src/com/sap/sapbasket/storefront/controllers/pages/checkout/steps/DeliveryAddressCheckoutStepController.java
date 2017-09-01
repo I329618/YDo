@@ -20,15 +20,18 @@ import de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.checkou
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMessages;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm;
 import de.hybris.platform.acceleratorstorefrontcommons.util.AddressDataUtil;
+import de.hybris.platform.catalog.impl.DefaultCatalogTypeService;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;
 import de.hybris.platform.commercefacades.address.data.AddressVerificationResult;
 import de.hybris.platform.commercefacades.order.data.CartData;
 import de.hybris.platform.commercefacades.user.data.AddressData;
 import de.hybris.platform.commercefacades.user.data.CountryData;
 import de.hybris.platform.commerceservices.address.AddressVerificationDecision;
+import de.hybris.platform.core.model.type.ComposedTypeModel;
 import de.hybris.platform.util.Config;
-import com.sap.sapbasket.storefront.controllers.ControllerConstants;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -41,6 +44,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sap.sapbasket.storefront.controllers.ControllerConstants;
 
 
 @Controller
@@ -75,6 +80,11 @@ public class DeliveryAddressCheckoutStepController extends AbstractCheckoutStepC
 		final CartData cartData = getCheckoutFacade().getCheckoutCart();
 
 		getAddressValidator().validate(addressForm, bindingResult);
+
+		final DefaultCatalogTypeService dcts = new DefaultCatalogTypeService();
+		Collection<ComposedTypeModel> catalogVersionAwareComposedTypes = new ArrayList<ComposedTypeModel>();
+		catalogVersionAwareComposedTypes = dcts.getAllCatalogVersionAwareTypes(false);
+		catalogVersionAwareComposedTypes.size();
 		populateCommonModelAttributes(model, cartData, addressForm);
 
 		if (bindingResult.hasErrors())
@@ -257,8 +267,8 @@ public class DeliveryAddressCheckoutStepController extends AbstractCheckoutStepC
 	@RequireHardLogIn
 	public String doSelectSuggestedAddress(final AddressForm addressForm, final RedirectAttributes redirectModel)
 	{
-		final Set<String> resolveCountryRegions = org.springframework.util.StringUtils.commaDelimitedListToSet(Config
-				.getParameter("resolve.country.regions"));
+		final Set<String> resolveCountryRegions = org.springframework.util.StringUtils
+				.commaDelimitedListToSet(Config.getParameter("resolve.country.regions"));
 
 		final AddressData selectedAddress = addressDataUtil.convertToAddressData(addressForm);
 		final CountryData countryData = selectedAddress.getCountry();

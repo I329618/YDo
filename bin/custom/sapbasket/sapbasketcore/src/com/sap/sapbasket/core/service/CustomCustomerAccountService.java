@@ -16,7 +16,7 @@ public interface CustomCustomerAccountService extends CustomerAccountService
 {
 
 	@Deprecated
-	void updateProfile(CustomerModel customerModel, String titleCode, String name, String login, String email,
+	void updateProfile(CustomerModel customerModel, String titleCode, String name, String login, /* String email, */
 			String date_of_birth, String mobile_number, String landline_number) throws DuplicateUidException;
 
 	/**

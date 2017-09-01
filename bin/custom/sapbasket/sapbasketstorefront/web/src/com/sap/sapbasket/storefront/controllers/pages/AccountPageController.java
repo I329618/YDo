@@ -22,7 +22,6 @@ import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMe
 import de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateEmailForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdatePasswordForm;
-//import de.hybris.platform.acceleratorstorefrontcommons.forms.UpdateProfileForm;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.AddressValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.EmailValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.PasswordValidator;
@@ -138,6 +137,7 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final String ORDER_DETAIL_CMS_PAGE = "order";
 
 	private static final Logger LOG = Logger.getLogger(AccountPageController.class);
+
 
 	@Resource(name = "orderFacade")
 	private OrderFacade orderFacade;
@@ -294,6 +294,7 @@ public class AccountPageController extends AbstractSearchPageController
 			@RequestParam(value = "sort", required = false) final String sortCode, final Model model) throws CMSItemNotFoundException
 	{
 		// Handle paged search results
+
 		final PageableData pageableData = createPageableData(page, 5, sortCode, showMode);
 		final SearchPageData<OrderHistoryData> searchPageData = orderFacade.getPagedOrderHistoryForStatuses(pageableData);
 		populateModel(model, searchPageData, showMode);
@@ -483,7 +484,7 @@ public class AccountPageController extends AbstractSearchPageController
 		extendedUpdateProfileForm.setFirstName(customerData.getFirstName());
 		extendedUpdateProfileForm.setLastName(customerData.getLastName());
 
-		extendedUpdateProfileForm.setEmail(customerData.getEmail());
+		/* extendedUpdateProfileForm.setEmail(customerData.getEmail()); */
 		extendedUpdateProfileForm.setDate_of_birth(customerData.getDate_of_birth());
 		extendedUpdateProfileForm.setMobile_number(customerData.getMobile_number());
 		extendedUpdateProfileForm.setLandline_number(customerData.getLandline_number());
@@ -512,7 +513,7 @@ public class AccountPageController extends AbstractSearchPageController
 		customerData.setFirstName(extendedupdateProfileForm.getFirstName());
 		customerData.setLastName(extendedupdateProfileForm.getLastName());
 
-		customerData.setEmail(extendedupdateProfileForm.getEmail());
+		/* customerData.setEmail(extendedupdateProfileForm.getEmail()); */
 		customerData.setDate_of_birth(extendedupdateProfileForm.getDate_of_birth());
 		customerData.setMobile_number(extendedupdateProfileForm.getMobile_number());
 		customerData.setLandline_number(extendedupdateProfileForm.getLandline_number());
@@ -671,6 +672,7 @@ public class AccountPageController extends AbstractSearchPageController
 			setUpAddressFormAfterError(addressForm, model);
 			return getViewForPage(model);
 		}
+
 
 		final AddressData newAddress = addressDataUtil.convertToVisibleAddressData(addressForm);
 

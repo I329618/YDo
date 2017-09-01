@@ -40,7 +40,7 @@ public class DefaultCustomCustomerFacade extends DefaultCustomerFacade implement
 		final CustomerModel customer = getCurrentSessionCustomer();
 		customer.setOriginalUid(customerData.getDisplayUid());
 		getCustomCustomerAccountService().updateProfile(customer, customerData.getTitleCode(), name, customerData.getUid(),
-				customerData.getEmail(), customerData.getDate_of_birth(), customerData.getMobile_number(),
+				/* customerData.getEmail(), */customerData.getDate_of_birth(), customerData.getMobile_number(),
 				customerData.getLandline_number());
 	}
 
